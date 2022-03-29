@@ -1,2 +1,11 @@
+@import url('https://elixir-ui.netlify.app/Components/elixir.css');
 @import url('./reset.css');
 @import url('./variables.css');
+
+.App {
+    background-color: var(--light-theme-bg-color);
+}
+
+.App {
+    min-height: 100vh;
+}
