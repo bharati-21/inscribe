@@ -1,0 +1,10 @@
+.navbar {
+    background-color: var(--bg-card-color);
+    padding: 1rem 2rem;
+    height: 64px;
+    box-shadow: var(--box-shadow);
+}
+
+.logo {
+    color: var(--primary-color);
+}
