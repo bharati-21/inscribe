@@ -1,7 +1,7 @@
 .navbar {
     background-color: var(--bg-card-color);
-    padding: 1rem 2rem;
-    height: 64px;
+    padding: var(--space-1) var(--space-2);
+    min-height: var(--navbar-min-height);
     box-shadow: var(--box-shadow);
 }
 
