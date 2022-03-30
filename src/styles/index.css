@@ -4,8 +4,17 @@
 
 .App {
     background-color: var(--light-theme-bg-color);
+    min-height: 100vh;
 }
 
-.App {
-    min-height: 100vh;
+.grid-container { 
+    display: grid;
+    position: relative;
+    grid-template-columns: 250px 1fr;
+    min-height: var(--grid-min-height);
+    height: 100%;
+}
+
+.section-wrapper {
+    padding: var(--space-2);
 }
