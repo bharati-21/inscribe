@@ -4,7 +4,7 @@ const useToastify = () => {
 	const showToast = (toastText="Operation Successfull", toastTheme="success") => {
 		const notify = () => {
 			toast[toastTheme](toastText, {
-                theme:"colored",
+                theme: "colored",
 				position: "top-right",
 				autoClose: 2000,
 				hideProgressBar: false,
