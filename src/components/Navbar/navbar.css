@@ -8,3 +8,11 @@
 .logo {
     color: var(--primary-color);
 }
+
+.left-nav {
+    gap: var(--space-1);
+}
+
+.btn-hamburger {
+    display: none;
+}

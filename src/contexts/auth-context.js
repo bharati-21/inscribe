@@ -9,7 +9,7 @@ const AuthProvider = ({ children }) => {
 
     const getInitialAuthState = () => {
 		const authToken = localStorage.getItem("inscribe-token");
-		const authUser = localStorage.getItem("inscribe-user");
+		const authUser = JSON.parse(localStorage.getItem("inscribe-user"));
 
         if (authToken) {
             return {
@@ -28,7 +28,7 @@ const AuthProvider = ({ children }) => {
 		getInitialAuthState()
 	);
 
-	return <Provider value={{ authState, authDispatch }}>{children}</Provider>;
+	return <Provider value={{ ...authState, authDispatch }}>{children}</Provider>;
 };
 
 const useAuth = () => useContext(AuthContext);
