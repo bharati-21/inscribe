@@ -59,7 +59,7 @@ const Signup = () => {
 				},
 			});
 
-            localStorage.setItem("inscribe-token", encodedToken);
+      localStorage.setItem("inscribe-token", encodedToken);
 			localStorage.setItem("inscribe-user", JSON.stringify(otherUserDetails));
 
 			const timeoutId = setTimeout(() => {

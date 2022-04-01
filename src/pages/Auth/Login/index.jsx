@@ -10,7 +10,6 @@ import { loginService } from "services/";
 import { useAuth } from "contexts/";
 
 const Login = () => {
-    
 	const initialFormData = {
 		email: "",
 		password: "",
@@ -86,6 +85,7 @@ const Login = () => {
 					? navigate(location.state.from)
 					: navigate("/");
 			}, 3000);
+
 		} catch (error) {
 			localStorage.removeItem("inscribe-token");
 			localStorage.removeItem("inscribe-user");
@@ -118,7 +118,7 @@ const Login = () => {
 
 	const btnDisabled = authLoading && "btn-disabled";
 	const linkDisabled = authLoading && "link-disabled";
-
+  
 	return (
 		<section className="auth-main flex-col flex-align-center flex-justify-center mx-auto p-3">
 			<div className="auth-wrapper">
