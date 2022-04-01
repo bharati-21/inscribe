@@ -1,10 +1,12 @@
 @import url('https://elixir-ui.netlify.app/Components/elixir.css');
 @import url('./reset.css');
 @import url('./variables.css');
+@import url('react-toastify/dist/ReactToastify.css');
+
 
 .App {
     background-color: var(--light-theme-bg-color);
-    min-height: 100vh;
+    max-height: 100vh;
 }
 
 .grid-container { 
@@ -17,4 +19,43 @@
 
 .section-wrapper {
     padding: var(--space-2);
+    overflow-y: auto;
+}
+
+.section-wrapper::-webkit-scrollbar {
+    height: 16px;
+    overflow: visible;
+    width: 16px;
+}
+.section-wrapper::-webkit-scrollbar-button {
+    height: 0;
+    width: 0;
+}
+.section-wrapper::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+.section-wrapper::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    background-clip: padding-box;
+    border: solid transparent;
+    border-width: 1px 1px 1px 6px;
+    min-height: 28px;
+    padding: 100px 0 0;
+    box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
+    box-shadow: inset 1px 1px 0 rgb(0 0 0 / 10%), inset 0 -1px 0 rgb(0 0 0 / 7%);
+}
+
+@media screen and (max-width: 768px) {
+    aside.sidebar {
+        display: none;
+    }
+
+    .grid-container { 
+        grid-template-columns: 1fr;
+    }
+
+    .left-nav .btn-hamburger {
+        display: flex;
+    }
 }

@@ -25,7 +25,7 @@ const Signup = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { authState: { isAuth, authLoading, authError }, authDispatch } = useAuth();
+    const { isAuth, authLoading, authError, authDispatch } = useAuth();
 
     useEffect(() => {
         const { state } = location; 
@@ -59,8 +59,8 @@ const Signup = () => {
 				},
 			});
 
-            localStorage.setItem("inscribe-token", encodedToken);
-			localStorage.setItem("inscribe-user", otherUserDetails);
+      localStorage.setItem("inscribe-token", encodedToken);
+			localStorage.setItem("inscribe-user", JSON.stringify(otherUserDetails));
 
 			const timeoutId = setTimeout(() => {
 				setFormData(initialFormData);
@@ -84,7 +84,6 @@ const Signup = () => {
 			}, 3000);
 		} 
         catch (error) {
-            console.log(error)
 			localStorage.removeItem("inscribe-token");
 			localStorage.removeItem("inscribe-user");
 			authDispatch({

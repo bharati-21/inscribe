@@ -10,7 +10,6 @@ import { loginService } from "services/";
 import { useAuth } from "contexts/";
 
 const Login = () => {
-
 	const initialFormData = {
 		email: "",
 		password: "",
@@ -22,11 +21,11 @@ const Login = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const { authState: { authError, authLoading, isAuth }, authDispatch } = useAuth();
+	const { authError, authLoading, isAuth, authDispatch } = useAuth();
 
-    useEffect(() => {
-        const { state } = location; 
-		!authLoading && isAuth && navigate(state?.from ? state.from : '/');
+	useEffect(() => {
+		const { state } = location;
+		!authLoading && isAuth && navigate(state?.from ? state.from : "/");
 	}, []);
 
 	const handleFormDataChange = (event) => {
@@ -64,30 +63,30 @@ const Login = () => {
 			});
 
 			localStorage.setItem("inscribe-token", encodedToken);
-			localStorage.setItem("inscribe-user", otherUserDetails);
+			localStorage.setItem("inscribe-user", JSON.stringify(otherUserDetails));
 
 			const timeoutId = setTimeout(() => {
 				setFormData(initialFormData);
-                
-                authDispatch({
-                    action: {
-                        type: "INIT_AUTH",
-                        payload: {
-                            isAuth: true,
-                            authToken: encodedToken,
-                            authUser: { ...otherUserDetails },
-                            authLoading: false,
-                            authError: null,
-                        },
-                    },
-                });
+
+				authDispatch({
+					action: {
+						type: "INIT_AUTH",
+						payload: {
+							isAuth: true,
+							authToken: encodedToken,
+							authUser: { ...otherUserDetails },
+							authLoading: false,
+							authError: null,
+						},
+					},
+				});
 
 				location.state?.from
 					? navigate(location.state.from)
 					: navigate("/");
 			}, 3000);
-		} 
-        catch (error) {
+
+		} catch (error) {
 			localStorage.removeItem("inscribe-token");
 			localStorage.removeItem("inscribe-user");
 			authDispatch({
@@ -117,9 +116,9 @@ const Login = () => {
 		});
 	};
 
-    const btnDisabled = authLoading && 'btn-disabled';
-    const linkDisabled = authLoading && 'link-disabled';
-
+	const btnDisabled = authLoading && "btn-disabled";
+	const linkDisabled = authLoading && "link-disabled";
+  
 	return (
 		<section className="auth-main flex-col flex-align-center flex-justify-center mx-auto p-3">
 			<div className="auth-wrapper">
@@ -145,7 +144,7 @@ const Login = () => {
 									placeholder="janedoe@gmail.com"
 									value={email}
 									onChange={handleFormDataChange}
-                                    disabled={authLoading}
+									disabled={authLoading}
 									required
 								/>
 							</label>
@@ -167,7 +166,7 @@ const Login = () => {
 										placeholder="********"
 										name="password"
 										value={password}
-                                        disabled={authLoading}
+										disabled={authLoading}
 										onChange={handleFormDataChange}
 										autoComplete="off"
 										required
@@ -176,7 +175,7 @@ const Login = () => {
 										type="button"
 										className="btn btn-icon icon-show-psd"
 										onClick={handleChangePasswordVisibility}
-                                        disabled={authLoading}
+										disabled={authLoading}
 									>
 										<span className="icon mui-icon">
 											{showPasswordIcon}
@@ -195,7 +194,7 @@ const Login = () => {
 									type="checkbox"
 									className="input-checkbox text-reg"
 									id="checkbox-remember"
-                                    disabled={authLoading}
+									disabled={authLoading}
 								/>
 								Remember me
 							</label>
@@ -209,14 +208,14 @@ const Login = () => {
 									type="submit"
 									className={`btn btn-primary btn-full-width px-0-75 py-0-25 btn-full-width text-reg ${btnDisabled}`}
 									value="Login"
-                                    disabled={authLoading}
+									disabled={authLoading}
 								/>
 								<input
 									type="submit"
 									className={`btn btn-primary btn-outline btn-full-width px-0-75 py-0-25 btn-full-width text-reg ${btnDisabled}`}
 									value="Login with Test Credentials"
 									onClick={handleLoginWithTestCredentials}
-                                    disabled={authLoading}
+									disabled={authLoading}
 								/>
 							</div>
 							<Link
@@ -233,7 +232,9 @@ const Login = () => {
 				</section>
 			</div>
 			{authError && <p className="error-color text-lg">{authError}</p>}
-            {authLoading && <p className="success-color text-lg">Loading. Please wait...</p>}
+			{authLoading && (
+				<p className="success-color text-lg">Loading. Please wait...</p>
+			)}
 		</section>
 	);
 };
