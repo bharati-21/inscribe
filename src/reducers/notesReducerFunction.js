@@ -4,12 +4,12 @@ const actionTypes = {
 	RESET_NOTES: "RESET_NOTES",
 	SHOW_NEW_NOTE_FORM: "SHOW_NEW_NOTE_FORM",
 	SET_ARCHIVES: "SET_ARCHIVES",
-    EDIT_ARCHIVES: "EDIT_ARCHIVES"
+	EDIT_ARCHIVES: "EDIT_ARCHIVES",
 };
 
 const initialNotesState = {
 	notes: [],
-    archives: [],
+	archives: [],
 	notesLoading: true,
 	notesError: null,
 	showNewNoteForm: false,
@@ -29,7 +29,7 @@ const notesReducerFunction = (
 				showNewNoteForm,
 				isEditing,
 				editingNoteId,
-                archives,
+				archives,
 			},
 		},
 	}
@@ -66,12 +66,18 @@ const notesReducerFunction = (
 				isEditing,
 				editingNoteId,
 			};
-        
-        case actionTypes.SET_ARCHIVES:
-            return { ...prevNotesState, notes, archives };
-        
-        case actionTypes.EDIT_ARCHIVES:
-            return { ...prevNotesState, archives, isEditing, editingNoteId, showNewNoteForm };
+
+		case actionTypes.SET_ARCHIVES:
+			return { ...prevNotesState, notes, archives };
+
+		case actionTypes.EDIT_ARCHIVES:
+			return {
+				...prevNotesState,
+				archives,
+				isEditing,
+				editingNoteId,
+				showNewNoteForm,
+			};
 
 		default:
 			return prevNotesState;
