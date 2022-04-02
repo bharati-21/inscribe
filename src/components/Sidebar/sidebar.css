@@ -20,7 +20,7 @@ aside.sidebar {
 }
 
 .user-info .user-avatar {
-    flex: 1 0;
+    flex-shrink: 0;
 }
 
 .user-info .user-name {
