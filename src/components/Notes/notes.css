@@ -1,0 +1,71 @@
+.notes-list-wrapper {
+    width: 100%;
+}
+
+.notes-container {
+    max-width: 600px;
+    width: 100%;
+    gap: var(--space-2);
+}
+
+.note-card {
+    background-color: var(--bg-card-color);
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    width: 100%;
+    gap: var(--space-1);
+    position: relative;
+}
+
+.notes-container .note-card {
+    min-height: max-content;
+    height: 100%;
+}
+
+.notes-container .note-body {
+    height: 100%;
+}
+
+.notes-container .note-body,
+.notes-container .note-title {
+    cursor: default;
+}
+
+.note-card .note-title,
+.note-card .note-body {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+    width: 100%;
+    resize: none;
+    border: 2px solid var(--light-theme-bg-color);
+}
+
+.note-card .note-title {
+    font-size: var(--text);
+}
+
+.note-card .note-body {
+    font-size: var(--text-sm);
+    margin: 0;
+}
+
+.note-card.hide-note-body > .note-body {
+    display: none;
+}
+
+.note-info {
+    width: 100%;
+}
+
+.note-actions {
+    gap: var(--space-1);
+}

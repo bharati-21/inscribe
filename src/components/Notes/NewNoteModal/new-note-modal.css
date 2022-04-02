@@ -1,0 +1,42 @@
+.new-note-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+}
+
+.new-note-form {
+    max-width: 500px;
+    max-height: 90vh;
+    overflow: auto;
+    /* width: 100%; */
+    gap: var(--space-0-5);
+    position: relative;
+}
+
+.new-note-form .note-title,
+.new-note-form .note-body {
+    border: 2px solid var(--light-gray-color);
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+}
+
+.new-note-form .note-title {
+    padding-right: 2rem;
+}
+
+.new-note-form .button-container {
+    width: 100%;
+}
+
+.btn-pin {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+}
