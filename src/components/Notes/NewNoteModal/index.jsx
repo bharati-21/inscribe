@@ -33,7 +33,7 @@ const NewNoteModal = () => {
 		if (isEditing === 'note')
 			setNoteItem(notes.find((note) => note._id === editingNoteId));
         if(isEditing === 'archive') 
-        setNoteItem(archives.find((archive) => archive._id === editingNoteId));
+            setNoteItem(archives.find((archive) => archive._id === editingNoteId));
 	}, [isEditing]);
 
 	const [pinned, setPinned] = useState(false);

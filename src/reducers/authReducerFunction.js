@@ -1,7 +1,4 @@
-const actionTypes = {
-    INIT_AUTH: 'INIT_AUTH',
-    RESET_AUTH: 'RESET_AUTH'
-}
+import { authActions as actionTypes } from "./actions";
 
 const initialAuthState = {
     isAuth: false,
