@@ -7,14 +7,18 @@ import {
 	Archive,
 	Delete,
 	Palette,
+    Unarchive
 } from "@mui/icons-material";
 
 import { ColorPalette } from "components/ColorPalette";
-import { deleteNoteService } from "services";
+import { deleteNoteService, postArchiveService, postUnarchiveService, deleteArchivedNoteService } from "services";
 import { useAuth, useNotes } from "contexts";
 import { useToastify } from "custom-hook/useToastify";
 
-const NoteItem = ({ note: { _id, noteTitle, noteBody, noteCreatedOn } }) => {
+const NoteItem = ({ note }) => {
+
+    const { _id, noteTitle, noteBody, noteCreatedOn, isArchived } = note;
+
 	const [showOptions, setShowOptions] = useState({
 		showColorPalette: false,
 	});
@@ -39,7 +43,33 @@ const NoteItem = ({ note: { _id, noteTitle, noteBody, noteCreatedOn } }) => {
 		}
 	};
 
+    const handleDeleteArchivedNote = async () => {
+        try {
+			const { data: { archives } } = await deleteArchivedNoteService(_id, authToken);
+			notesDispatch({
+				action: {
+					type: "EDIT_ARCHIVES",
+					payload: {
+						archives,
+						showNewNote: false,
+                        isEditing: null,
+                        editingNoteId: -1
+					},
+				},
+			});
+
+			showToast("Note deleted.", "success");
+		} catch (error) {
+            console.log(error)
+			showToast(
+				"Could note delete note. Try again after sometime!",
+				"error"
+			);
+		}
+    }
+
 	const handleDeleteNote = async () => {
+        if(isArchived) return handleDeleteArchivedNote();
 		try {
 			const { data } = await deleteNoteService(_id, authToken);
 			notesDispatch({
@@ -50,7 +80,7 @@ const NoteItem = ({ note: { _id, noteTitle, noteBody, noteCreatedOn } }) => {
 						notesError: null,
 						notesLoading: false,
 						showNewNote: false,
-                        isEditing: false,
+                        isEditing: null,
                         editingNoteId: -1
 					},
 				},
@@ -71,14 +101,35 @@ const NoteItem = ({ note: { _id, noteTitle, noteBody, noteCreatedOn } }) => {
 				type: "SHOW_NEW_NOTE_FORM",
 				payload: {
 					showNewNoteForm: true,
-					isEditing: true,
+					isEditing: isArchived ? 'archive' : 'note',
 					editingNoteId: _id,
 				},
 			},
 		});
 	};
 
+    const handleArchiveNote = async () => {
+        try {
+            const  { data: { notes, archives } } = isArchived ? await postUnarchiveService(note, authToken) : await postArchiveService(note, authToken);
+
+            showToast(isArchived ? 'Note unarchived' : 'Note archived', 'success');
+            notesDispatch({
+				action: {
+					type: "SET_ARCHIVES",
+					payload: {
+						notes,
+						archives
+					},
+				},
+			});
+        }
+        catch(error) {
+            showToast(isArchived ? 'Note could not be unarchived. Try again later' : 'Note could not be archived. Try again later', 'error');
+        }
+    }
+
 	const pinIcon = pinned ? <PushPin /> : <PushPinOutlined />;
+    const archiveIcon = isArchived ? <Unarchive /> : <Archive />
 
 	return (
 		<div
@@ -119,9 +170,9 @@ const NoteItem = ({ note: { _id, noteTitle, noteBody, noteCreatedOn } }) => {
 						</button>
 						{showColorPalette && <ColorPalette />}
 					</div>
-					<button className="btn btn-icon btn-note-action">
+					<button className="btn btn-icon btn-note-action" onClick={handleArchiveNote}>
 						<span className="icon mui-icon icon-edit">
-							{<Archive />}
+							{archiveIcon}
 						</span>
 					</button>
 					<button
