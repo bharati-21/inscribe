@@ -3,6 +3,7 @@ aside.sidebar {
     height: 100%;
     height: calc(100vh - var(--navbar-min-height));
     padding: var(--space-2);
+    overflow-y: auto;
 }
 
 .sidebar-nav-links {
@@ -18,8 +19,14 @@ aside.sidebar {
     gap: var(--space-0-5);
 }
 
+.user-info .user-avatar {
+    flex-shrink: 0;
+}
+
 .user-info .user-name {
     font-weight: 550;
+    word-break: break-word;
+    word-wrap: break-word;
 }
 
 .btn-logout svg {
@@ -59,6 +66,19 @@ aside.sidebar {
     display:none;
 }
 
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0.2);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    border: 3px solid var(--light-theme-hover-color);
+    background-color: var(--light-theme-hover-color);
+}
+
 @media screen and (max-width: 768px) {
     .mobile-sidebar {
         display: flex;
@@ -85,3 +105,9 @@ aside.sidebar {
         right: 2rem;
     }
 } 
+
+@media screen and (max-width: 300px) {
+    .mobile-sidebar-wrapper aside.sidebar {
+        width: 200px;
+    }
+}

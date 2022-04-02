@@ -109,7 +109,7 @@ const Signup = () => {
     const linkDisabled = authLoading && 'link-disabled'
 
     return (
-        <section className="auth-main flex-col flex-align-center flex-justify-center mx-auto py-2 px-3">
+        <section className="auth-main section-wrapper flex-col flex-align-center flex-justify-start mx-auto py-2 px-3">
             <div className="auth-wrapper">
                 <article className="auth-container signup-container mx-auto mb-1 px-1-5 py-2">
                     <h3 className="text-center text-uppercase auth-head mb-2">
