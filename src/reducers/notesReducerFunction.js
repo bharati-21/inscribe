@@ -1,11 +1,4 @@
-const actionTypes = {
-	SET_NOTES_SUCCESS: "SET_NOTES_SUCCESS",
-	SET_NOTES_ERROR: "SET_NOTES_ERROR",
-	RESET_NOTES: "RESET_NOTES",
-	SHOW_NEW_NOTE_FORM: "SHOW_NEW_NOTE_FORM",
-	SET_ARCHIVES: "SET_ARCHIVES",
-	EDIT_ARCHIVES: "EDIT_ARCHIVES",
-};
+import { notesActions as actionTypes } from './actions';
 
 const initialNotesState = {
 	notes: [],
