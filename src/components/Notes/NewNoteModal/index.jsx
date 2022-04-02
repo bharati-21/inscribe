@@ -4,7 +4,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { PushPinOutlined, PushPin } from "@mui/icons-material";
 
 import "./new-note-modal.css";
-import { editNoteService, postNoteService } from "services";
+import { editArchiveService, editNoteService, postNoteService } from "services";
 import { getCreatedDate } from "utils/getCreatedDate";
 import { useAuth, useNotes } from "contexts";
 import { useToastify } from "custom-hook/useToastify";
@@ -18,6 +18,7 @@ const NewNoteModal = () => {
 		handleShowSidebar,
 		isEditing,
 		editingNoteId,
+        archives
 	} = useNotes();
 	const { authToken } = useAuth();
 
@@ -26,11 +27,13 @@ const NewNoteModal = () => {
 		noteBody: "",
 	};
 	const [noteItem, setNoteItem] = useState(initialEmptyFormState);
-    const [formDataError, setFormDataError] = useState(null)
+    const [formDataError, setFormDataError] = useState(null);
 
 	useEffect(() => {
-		if (isEditing)
+		if (isEditing === 'note')
 			setNoteItem(notes.find((note) => note._id === editingNoteId));
+        if(isEditing === 'archive') 
+        setNoteItem(archives.find((archive) => archive._id === editingNoteId));
 	}, [isEditing]);
 
 	const [pinned, setPinned] = useState(false);
@@ -50,7 +53,7 @@ const NewNoteModal = () => {
 	const resetNoteFormInput = () => {
 		if (showSidebar) handleShowSidebar();
 		setNoteItem(initialEmptyFormState);
-        setFormDataError(null)
+        setFormDataError(null);
 	};
 
 	const handleCancelNewNote = () => {
@@ -60,20 +63,44 @@ const NewNoteModal = () => {
 				type: "SHOW_NEW_NOTE_FORM",
 				payload: {
 					showNewNoteForm: false,
-					isEditing: false,
+					isEditing: null,
 					editingNoteId: -1,
 				},
 			},
 		});
 	};
 
+    const handleEditArchived = async () => {
+        try {
+			const {
+				data: { archives },
+			} = await editArchiveService(noteItem, authToken);
+
+            notesDispatch({
+				action: {
+					type: "EDIT_ARCHIVES",
+					payload: {
+						archives,
+                        showNewNoteForm: false,
+                        isEditing: null,
+                        editingNoteId: -1
+					},
+				},
+			});
+			showToast("Edited Note", "info");
+			resetNoteFormInput();
+		} catch (error) {
+			showToast("Failed to edit note. Please try again later.", "error");
+		}
+    }
+
 	const handleEditNote = async () => {
 		try {
 			const {
 				data: { notes },
-			} = await editNoteService(noteItem, authToken);
+			} =  await editNoteService(noteItem, authToken);
 
-			notesDispatch({
+            notesDispatch({
 				action: {
 					type: "SET_NOTES_SUCCESS",
 					payload: {
@@ -81,7 +108,7 @@ const NewNoteModal = () => {
 						notesLoading: false,
 						notesError: null,
 						showNewNoteForm: false,
-						isEditing: false,
+						isEditing: null,
 						editingNoteId: -1,
 					},
 				},
@@ -95,7 +122,7 @@ const NewNoteModal = () => {
 					payload: {
 						notesLoading: false,
 						showNewNoteForm: false,
-						isEditing: false,
+						isEditing: null,
 						editingNoteId: -1,
 						notesError:
 							"Could not create a new note. Please try again later.",
@@ -113,8 +140,11 @@ const NewNoteModal = () => {
             return;
         }
         setFormDataError(null);
-        const editedNote = notes.find(({ _id }) => _id === editingNoteId)
+    
 		if (isEditing) {
+            if(noteItem.isArchived) {
+                return handleEditArchived();
+            }
 			return handleEditNote();
 		}
 		try {
@@ -122,7 +152,7 @@ const NewNoteModal = () => {
 			const {
 				data: { notes },
 			} = await postNoteService(
-				{ ...noteItem, noteCreatedOn },
+				{ ...noteItem, noteCreatedOn, isArchived: false },
 				{ authorization: authToken }
 			);
 
@@ -134,7 +164,7 @@ const NewNoteModal = () => {
 						notesLoading: false,
 						notesError: null,
 						showNewNoteForm: false,
-						isEditing: false,
+						isEditing: null,
 						editingNoteId: -1,
 					},
 				},
@@ -147,7 +177,7 @@ const NewNoteModal = () => {
 					type: "SET_NOTES_ERROR",
 					payload: {
 						showNewNoteForm: false,
-						isEditing: false,
+						isEditing: null,
 						editingNoteId: -1,
 						notesLoading: false,
 						notesError:
