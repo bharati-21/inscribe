@@ -1,4 +1,4 @@
-import { HomeOutlined, LabelOutlined, ArchiveOutlined, DeleteOutlineOutlined, AccountCircleOutlined, Logout, Close } from '@mui/icons-material/';
+import { HomeOutlined, LabelOutlined, ArchiveOutlined, DeleteOutlineOutlined, AccountCircleOutlined, Logout, Close, Add } from '@mui/icons-material/';
 
 
 import {v4 as uuid} from 'uuid';
@@ -89,6 +89,16 @@ const Sidebar = () => {
             } 
             <section className="sidebar-nav-links flex-col">
                 { mappedSections }
+                <section className="label-input mt-1">
+                    <form className="input-label-form">
+                        <div className="flex-row flex-align-center flex-justify-center input-label-wrapper">
+                            <input type="text" className="input-label p-0-5" placeholder="Enter new label" required />
+                            <button type="submit" className="btn btn-icon btn-primary btn-label-submit" >
+                                { <Add />}
+                            </button>
+                        </div>
+                    </form>
+                </section>
                 <button className="btn btn-primary btn-new-note btn-full-width px-0-75 py-0-25 mt-1-5 text-reg" onClick={handleCreateNote}>Create new note</button>
             </section>
             <section className="sidebar-footer flex-row flex-align-center flex-justify-between flex-wrap">

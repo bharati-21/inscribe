@@ -27,6 +27,34 @@ aside.sidebar {
     width: 1.25rem;
 }
 
+.input-label-wrapper {
+    background-color: var(--bg-card-color);
+    border-radius: var(--br-4);
+    -webkit-border-radius: var(--br-4);
+    -moz-border-radius: var(--br-4);
+    -ms-border-radius: var(--br-4);
+    -o-border-radius: var(--br-4);
+    border: 1px solid var(--primary-active-color);
+}
+
+.input-label {
+    background-color: transparent;
+    border: none;
+    max-width: 100%;
+    width: 100%;
+    outline: none;
+}
+
+.btn-label-submit {
+    background-color: transparent;
+    min-width: max-content;
+    border: none;
+}
+
+.btn.btn-label-submit:hover {
+    color: var(--secondary-color);
+}
+
 .mobile-sidebar, .btn-sidebar-close {
     display:none;
 }
