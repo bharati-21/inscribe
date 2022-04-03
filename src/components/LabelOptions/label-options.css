@@ -1,0 +1,22 @@
+.label-input-wrapper {
+    width: 100%;
+}
+
+.label-input-wrapper .label-input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: var(--bg-card-color);
+    border-bottom: 1px solid var(--bg-card-color);
+    width: 100%;
+}
+
+.label-checkbox-wrapper {
+    width: 100%;
+    gap: var(--space-0-25) var(--space-1);
+}
+
+.label-checkbox-wrapper label {
+    color: var(--bg-card-color);
+    gap: var(--space-0-25);
+}
