@@ -1,0 +1,29 @@
+.search-bar-wrapper {
+    width: 100%;
+    max-width: 600px;
+    background-color: var(--bg-card-color);
+    border-radius: var(--br-2);
+    -webkit-border-radius: var(--br-2);
+    -moz-border-radius: var(--br-2);
+    -ms-border-radius: var(--br-2);
+    -o-border-radius: var(--br-2);
+    position: relative;
+}
+
+.input-search-note {
+    background: transparent;
+    border: none;
+    width: 100%;
+    outline: none; 
+}
+
+.btn-filter {
+    position: absolute;
+    transform: translateY(-50%);
+    top: 50%;
+    right: var(--space-0-75);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
