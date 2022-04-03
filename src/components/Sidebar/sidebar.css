@@ -79,6 +79,15 @@ aside.sidebar {
     background-color: var(--light-theme-hover-color);
 }
 
+.list-labels {
+    gap: var(--space-0-5);
+}
+
+.list-labels li {
+    font-size: 1.05rem;
+    max-width: max-content;
+}
+
 @media screen and (max-width: 768px) {
     .mobile-sidebar {
         display: flex;
