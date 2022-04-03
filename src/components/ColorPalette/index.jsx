@@ -53,7 +53,7 @@ const ColorPalette = () => {
 		></button>
 	));
 
-	return <div className="palette-wrapper flex-row flex-wrap flex-align-center flex-justify-center">
+	return <div className="option-wrapper flex-row flex-wrap flex-align-center flex-justify-center">
         { colorMapping }
     </div>;
 };
