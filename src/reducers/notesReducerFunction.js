@@ -1,8 +1,10 @@
-import { notesActions as actionTypes } from './actions';
+import { v4 as uuid } from "uuid";
+import { notesActions as actionTypes } from "./actions";
 
 const initialNotesState = {
 	notes: [],
 	archives: [],
+	labels: [],
 	notesLoading: true,
 	notesError: null,
 	showNewNoteForm: false,
@@ -23,6 +25,8 @@ const notesReducerFunction = (
 				isEditing,
 				editingNoteId,
 				archives,
+				label,
+				labelId,
 			},
 		},
 	}
@@ -70,6 +74,12 @@ const notesReducerFunction = (
 				isEditing,
 				editingNoteId,
 				showNewNoteForm,
+			};
+
+		case actionTypes.ADD_LABEL:
+			return {
+				...prevNotesState,
+				labels: [...prevNotesState.labels, { label, id: labelId }],
 			};
 
 		default:
