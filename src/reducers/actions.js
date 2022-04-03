@@ -5,6 +5,7 @@ const notesActions = {
 	SHOW_NEW_NOTE_FORM: "SHOW_NEW_NOTE_FORM",
 	SET_ARCHIVES: "SET_ARCHIVES",
 	EDIT_ARCHIVES: "EDIT_ARCHIVES",
+    ADD_LABEL: 'ADD_LABEL',
 };
 
 const authActions = {
