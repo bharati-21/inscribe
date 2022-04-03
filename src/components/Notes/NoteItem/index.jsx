@@ -18,7 +18,7 @@ import { useToastify } from "custom-hook/useToastify";
 
 const NoteItem = ({ note }) => {
 
-    const { _id, noteTitle, noteBody, noteCreatedOn, isArchived, tags } = note;
+    const { _id, noteTitle, noteBody, noteCreatedOn, isArchived } = note;
 
     const initialShowOptions = {
         showColorPalette: false,
@@ -32,12 +32,10 @@ const NoteItem = ({ note }) => {
 
 	const [pinned, setPinned] = useState(false);
 
-    const [newLabel, setNewLabel] = useState("");
-
 	const { showColorPalette, showLabelOptions } = showOptions;
 
 	const { authToken } = useAuth();
-	const { notesDispatch, labels } = useNotes();
+	const { notesDispatch } = useNotes();
 
 	const { showToast } = useToastify();
 
