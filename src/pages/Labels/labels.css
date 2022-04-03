@@ -1,0 +1,8 @@
+.labels-section {
+    gap: var(--space-2);
+}
+
+.label-list-wrapper {
+    max-width: 500px;
+    width: 100%;
+}
