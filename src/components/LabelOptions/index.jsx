@@ -28,7 +28,7 @@ const LabelOptions = ({ note }) => {
 		setLabelOptions(
 			labels.map((label) => ({
 				...label,
-				checked: findIfLabelInNote(id),
+				checked: findIfLabelInNote(label.id),
 			}))
 		);
 	}, [labels, note.tags]);
