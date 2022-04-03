@@ -151,7 +151,7 @@ export const archiveNoteHandler = function (schema, request) {
     const { noteId } = request.params;
     const archivedNote = user.notes.filter((note) => note._id === noteId)[0];
     user.notes = user.notes.filter((note) => note._id !== noteId);
-    user.archives.push({ ...archivedNote });
+    user.archives.push({ ...archivedNote, isArchived: true });
     this.db.users.update({ _id: user._id }, user);
     return new Response(
       201,

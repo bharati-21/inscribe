@@ -31,7 +31,7 @@ const NotesProvider = ({ children }) => {
 						notesLoading: false,
 						notesError: null,
 						showNewNoteForm: false,
-						isEditing: false,
+						isEditing: null,
 						editingNoteId: -1,
 					},
 				},
@@ -42,7 +42,7 @@ const NotesProvider = ({ children }) => {
 					type: "SET_NOTES_ERROR",
 					payload: {
                         showNewNoteForm: false,
-                        isEditing: false,
+                        isEditing: null,
                         editingNoteId: -1,
 						notesLoading: false,
 						notesError: "Couldn't load notes. Try again later.",
