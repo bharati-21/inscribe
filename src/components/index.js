@@ -5,3 +5,4 @@ export { NotesList } from './Notes/NoteList/';
 export { NewNoteModal } from './Notes/NewNoteModal/';
 export { ColorPalette } from './ColorPalette';
 export { LabelOptions } from './LabelOptions';
+export { SearchBar } from './SearchBar/';
