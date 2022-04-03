@@ -18,7 +18,7 @@ import { useToastify } from "custom-hook/useToastify";
 
 const NoteItem = ({ note }) => {
 
-    const { _id, noteTitle, noteBody, noteCreatedOn, isArchived } = note;
+    const { _id, noteTitle, noteBody, noteCreatedOn, isArchived, tags } = note;
 
     const initialShowOptions = {
         showColorPalette: false,
@@ -136,6 +136,16 @@ const NoteItem = ({ note }) => {
 
 	const pinIcon = pinned ? <PushPin /> : <PushPinOutlined />;
     const archiveIcon = isArchived ? <Unarchive /> : <Archive />
+    const mappedTags = tags.length > 0 && <div className="notes-tag-list flex-row flex-align-center flex-justify-start flex-wrap">
+        {
+            tags.map(({ label, id }) => 
+                <span className="badge badge-primary py-0-25 px-0-5 text-sm" key={id}>
+                    {label}
+                </span> 
+            )
+        }
+    </div>
+
 	return (
 		<div
 			className={`note note-card p-1 flex-col flex-align-start flex-justify-between`}
@@ -151,11 +161,12 @@ const NoteItem = ({ note }) => {
 				value={noteBody}
 				readOnly
 			/>
-			<div className="note-info flex-row flex-align-center flex-justify-between">
+            { mappedTags }
+			<div className="note-info flex-row flex-align-center flex-justify-between flex-wrap">
 				<div className="note-timestamp text-sm gray-color">
 					Created on {noteCreatedOn}
 				</div>
-				<div className="note-actions flex-row flex-justify-center flex-align-center">
+				<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
 					<button
 						className="btn btn-icon btn-note-action"
 						onClick={handleEditNote}
