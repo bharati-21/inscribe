@@ -69,3 +69,11 @@
 .note-actions {
     gap: var(--space-1);
 }
+
+.notes-tag-list {
+    gap: var(--space-1);
+}
+
+.notes-tag-list .badge {
+    position: relative;
+}
