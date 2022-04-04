@@ -6,6 +6,9 @@ const notesActions = {
 	SET_ARCHIVES: "SET_ARCHIVES",
 	EDIT_ARCHIVES: "EDIT_ARCHIVES",
     ADD_LABEL: 'ADD_LABEL',
+    SORT_BY: 'SORT_BY',
+    FILTER_BY_LABELS: 'FILTER_BY_LABELS',
+    RESET_FILTERS: 'RESET_FILTERS'
 };
 
 const authActions = {
