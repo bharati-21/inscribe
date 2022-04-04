@@ -10,6 +10,8 @@ const initialNotesState = {
 	showNewNoteForm: false,
 	isEditing: null,
 	editingNoteId: -1,
+	sortBy: "",
+	filterByLabel: [],
 };
 
 const notesReducerFunction = (
@@ -27,6 +29,8 @@ const notesReducerFunction = (
 				archives,
 				label,
 				labelId,
+				filterByLabel,
+				sortBy,
 			},
 		},
 	}
@@ -80,6 +84,25 @@ const notesReducerFunction = (
 			return {
 				...prevNotesState,
 				labels: [...prevNotesState.labels, { label, id: labelId }],
+			};
+
+		case actionTypes.FILTER_BY_LABELS:
+			return {
+				...prevNotesState,
+				filterByLabel,
+			};
+
+		case actionTypes.SORT_BY:
+			return {
+				...prevNotesState,
+				sortBy,
+			};
+
+		case actionTypes.RESET_FILTERS:
+			return {
+				...prevNotesState,
+				sortBy,
+				filterByLabel,
 			};
 
 		default:
