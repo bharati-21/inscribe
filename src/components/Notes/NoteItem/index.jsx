@@ -164,7 +164,7 @@ const NoteItem = ({ note }) => {
             { mappedTags }
 			<div className="note-info flex-row flex-align-center flex-justify-between flex-wrap">
 				<div className="note-timestamp text-sm gray-color">
-					Created on {noteCreatedOn}
+					{noteCreatedOn}
 				</div>
 				<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
 					<button
