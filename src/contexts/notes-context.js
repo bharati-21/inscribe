@@ -15,8 +15,7 @@ const { Provider } = NotesContext;
 
 const NotesProvider = ({ children }) => {
 	const { isAuth } = useAuth();
-
-    const { showToast } = useToastify();
+	const { showToast } = useToastify();
 
 	const fetchNotes = async (authToken) => {
 		try {
@@ -41,15 +40,15 @@ const NotesProvider = ({ children }) => {
 				action: {
 					type: "SET_NOTES_ERROR",
 					payload: {
-                        showNewNoteForm: false,
-                        isEditing: null,
-                        editingNoteId: -1,
+						showNewNoteForm: false,
+						isEditing: null,
+						editingNoteId: -1,
 						notesLoading: false,
 						notesError: "Couldn't load notes. Try again later.",
 					},
 				},
 			});
-            showToast('Failed to load notes. Try again later.', 'error')
+			showToast("Failed to load notes. Try again later.", "error");
 		}
 	};
 

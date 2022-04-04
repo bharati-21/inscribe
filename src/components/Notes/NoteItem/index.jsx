@@ -7,25 +7,32 @@ import {
 	Archive,
 	Delete,
 	Palette,
-    Unarchive
+    Unarchive,
+    Label
 } from "@mui/icons-material";
 
-import { ColorPalette } from "components/ColorPalette";
+import { ColorPalette, LabelOptions } from "components/";
 import { deleteNoteService, postArchiveService, postUnarchiveService, deleteArchivedNoteService } from "services";
 import { useAuth, useNotes } from "contexts";
 import { useToastify } from "custom-hook/useToastify";
 
 const NoteItem = ({ note }) => {
 
-    const { _id, noteTitle, noteBody, noteCreatedOn, isArchived } = note;
+    const { _id, noteTitle, noteBody, noteCreatedOn, isArchived, tags } = note;
+
+    const initialShowOptions = {
+        showColorPalette: false,
+        showLabelOptions: false,
+    }
 
 	const [showOptions, setShowOptions] = useState({
 		showColorPalette: false,
+        showLabelOptions: false,
 	});
 
 	const [pinned, setPinned] = useState(false);
 
-	const { showColorPalette } = showOptions;
+	const { showColorPalette, showLabelOptions } = showOptions;
 
 	const { authToken } = useAuth();
 	const { notesDispatch } = useNotes();
@@ -33,13 +40,13 @@ const NoteItem = ({ note }) => {
 	const { showToast } = useToastify();
 
 	const handleChangeOptions = (option) => {
-		switch (option) {
+		switch (option) {   
 			case "colorPalette":
-				setShowOptions((prevShowOptions) => ({
-					...prevShowOptions,
-					showColorPalette: !prevShowOptions.showColorPalette,
-				}));
-				break;
+                setShowOptions(prevShowOptions => ({...initialShowOptions, showColorPalette: !prevShowOptions.showColorPalette}));
+                break;
+            case 'labelOptions':
+                setShowOptions(prevShowOptions => ({...initialShowOptions, showLabelOptions: !prevShowOptions.showLabelOptions}));
+                break;
 		}
 	};
 
@@ -60,7 +67,6 @@ const NoteItem = ({ note }) => {
 
 			showToast("Note deleted.", "success");
 		} catch (error) {
-            console.log(error)
 			showToast(
 				"Could note delete note. Try again after sometime!",
 				"error"
@@ -130,6 +136,15 @@ const NoteItem = ({ note }) => {
 
 	const pinIcon = pinned ? <PushPin /> : <PushPinOutlined />;
     const archiveIcon = isArchived ? <Unarchive /> : <Archive />
+    const mappedTags = tags.length > 0 && <div className="notes-tag-list flex-row flex-align-center flex-justify-start flex-wrap">
+        {
+            tags.map(({ label, id }) => 
+                <span className="badge badge-primary py-0-25 px-0-5 text-sm" key={id}>
+                    {label}
+                </span> 
+            )
+        }
+    </div>
 
 	return (
 		<div
@@ -146,11 +161,12 @@ const NoteItem = ({ note }) => {
 				value={noteBody}
 				readOnly
 			/>
-			<div className="note-info flex-row flex-align-center flex-justify-between">
+            { mappedTags }
+			<div className="note-info flex-row flex-align-center flex-justify-between flex-wrap">
 				<div className="note-timestamp text-sm gray-color">
 					Created on {noteCreatedOn}
 				</div>
-				<div className="note-actions flex-row flex-justify-center flex-align-center">
+				<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
 					<button
 						className="btn btn-icon btn-note-action"
 						onClick={handleEditNote}
@@ -169,6 +185,16 @@ const NoteItem = ({ note }) => {
 							</span>
 						</button>
 						{showColorPalette && <ColorPalette />}
+					</div>
+                    <div className="note-action-wrapper">
+						<button
+							className="btn btn-icon btn-note-action" onClick={() => handleChangeOptions("labelOptions")}
+						>
+							<span className="icon mui-icon icon-edit">
+								{<Label />}
+							</span>
+						</button>
+                        {showLabelOptions && <LabelOptions note={note} />}
 					</div>
 					<button className="btn btn-icon btn-note-action" onClick={handleArchiveNote}>
 						<span className="icon mui-icon icon-edit">
