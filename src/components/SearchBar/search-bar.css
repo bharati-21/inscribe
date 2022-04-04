@@ -1,3 +1,7 @@
+.search-filter-sort-wrapper {
+    width: 100%;
+}
+
 .search-bar-wrapper {
     width: 100%;
     max-width: 600px;
@@ -26,4 +30,51 @@
     -moz-transform: translateY(-50%);
     -ms-transform: translateY(-50%);
     -o-transform: translateY(-50%);
+}
+
+.filter-sort-wrapper {
+    z-index: 3;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 100vh;
+    background-color: var(--overlay-bg-color);
+}
+
+.filter-sort-drawer {
+    background-color: var(--text-color);
+    color: var(--bg-card-color);
+    max-width: 500px;
+    width: 100%;
+}
+
+.filter-sort-drawer-head {
+    border-bottom: 1px solid var(--light-gray-color);
+}
+
+.filter-sort-options {
+    width: 100%;
+    gap: var(--space-1);
+}
+
+.sort-options, .filter-options {
+    width: 100%;
+}
+
+.dropdown, option {
+    width: 100%;
+    color: var(--text-color);
+    outline: none;
+}
+
+.text-clear-button-wrapper {
+    width: 100%;
+    max-width: 600px;
+}
+
+
+.filter-options-text {
+    gap: var(--space-0-5);
 }
