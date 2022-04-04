@@ -5,7 +5,7 @@ import { PushPinOutlined, PushPin } from "@mui/icons-material";
 
 import "./new-note-modal.css";
 import { editArchiveService, editNoteService, postNoteService } from "services";
-import { getCreatedDate } from "utils/getCreatedDate";
+import { getCreatedDate } from "utils/";
 import { useAuth, useNotes } from "contexts";
 import { useToastify } from "custom-hook/useToastify";
 
