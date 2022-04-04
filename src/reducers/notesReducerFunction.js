@@ -5,8 +5,8 @@ const initialNotesState = {
 	notes: [],
 	archives: [],
 	labels: [],
-	notesLoading: true,
-	notesError: null,
+	notesStateLoading: true,
+	notesStateError: null,
 	showNewNoteForm: false,
 	isEditing: null,
 	editingNoteId: -1,
@@ -19,12 +19,13 @@ const notesReducerFunction = (
 			type,
 			payload: {
 				notes,
-				notesLoading,
-				notesError,
+				notesStateLoading,
+				notesStateError,
 				showNewNoteForm,
 				isEditing,
 				editingNoteId,
 				archives,
+				labels,
 				label,
 				labelId,
 			},
@@ -32,25 +33,36 @@ const notesReducerFunction = (
 	}
 ) => {
 	switch (type) {
-		case actionTypes.SET_NOTES_SUCCESS:
+		case actionTypes.SET_NOTES:
 			return {
 				...prevNotesState,
 				notes,
-				notesLoading,
-				notesError,
 				showNewNoteForm,
 				isEditing,
 				editingNoteId,
 			};
 
-		case actionTypes.SET_NOTES_ERROR:
+		case actionTypes.INIT_NOTES_STATE_SUCCESS:
 			return {
 				...prevNotesState,
-				notesLoading,
-				notesError,
+				notes,
+				archives,
+				notesStateLoading,
+				notesStateError,
 				showNewNoteForm,
 				isEditing,
 				editingNoteId,
+				labels,
+			};
+
+		case actionTypes.INIT_NOTES_STATE_ERROR:
+			return {
+				...initialNotesState,
+				showNewNoteForm,
+				isEditing,
+				editingNoteId,
+				notesStateLoading,
+				notesStateError,
 			};
 
 		case actionTypes.RESET_NOTES:
