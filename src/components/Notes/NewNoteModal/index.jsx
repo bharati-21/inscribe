@@ -218,6 +218,7 @@ const NewNoteModal = () => {
 					onChange={handleNoteItemChange}
 					tabIndex="1"
                     placeholder="Enter Note Title"
+                    autoComplete="off"
 				/>
 				<TextareaAutosize
 					className="note-body p-0-5 multline-textarea"
@@ -226,6 +227,7 @@ const NewNoteModal = () => {
 					onChange={handleNoteItemChange}
 					tabIndex="2"
                     placeholder="Enter Note Body"
+                    autoComplete="off"
 				/>
 				<div className="button-container flex-row flex-justify-between flex-align-center mt-1">
 					<input
