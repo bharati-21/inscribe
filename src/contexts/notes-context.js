@@ -22,20 +22,22 @@ const NotesProvider = ({ children }) => {
 			const {
 				data: { notes },
 			} = await getNotesService(authToken);
-            const {
-                data: { archives },
-            } = await getArchivedNotesService(authToken);
+			const {
+				data: { archives },
+			} = await getArchivedNotesService(authToken);
+
 			notesDispatch({
 				action: {
 					type: "INIT_NOTES_STATE_SUCCESS",
 					payload: {
 						notes,
-                        archives,
+						archives,
 						notesStateLoading: false,
 						notesStateError: null,
 						showNewNoteForm: false,
 						isEditing: null,
 						editingNoteId: -1,
+						labels: [],
 					},
 				},
 			});
@@ -48,7 +50,8 @@ const NotesProvider = ({ children }) => {
 						isEditing: null,
 						editingNoteId: -1,
 						notesStateLoading: false,
-						notesStateError: "Couldn't load notes. Try again later.",
+						notesStateError:
+							"Couldn't retrieve notes. Try again later.",
 					},
 				},
 			});
