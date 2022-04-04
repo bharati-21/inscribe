@@ -102,11 +102,9 @@ const NewNoteModal = () => {
 
             notesDispatch({
 				action: {
-					type: "SET_NOTES_SUCCESS",
+					type: "SET_NOTES",
 					payload: {
 						notes,
-						notesLoading: false,
-						notesError: null,
 						showNewNoteForm: false,
 						isEditing: null,
 						editingNoteId: -1,
@@ -116,19 +114,6 @@ const NewNoteModal = () => {
 			showToast("Edited Note", "info");
 			resetNoteFormInput();
 		} catch (error) {
-			notesDispatch({
-				action: {
-					type: "SET_NOTES_ERROR",
-					payload: {
-						notesLoading: false,
-						showNewNoteForm: false,
-						isEditing: null,
-						editingNoteId: -1,
-						notesError:
-							"Could not create a new note. Please try again later.",
-					},
-				},
-			});
 			showToast("Failed to edit note. Please try again later.", "error");
 		}
 	};
@@ -158,11 +143,9 @@ const NewNoteModal = () => {
 
 			notesDispatch({
 				action: {
-					type: "SET_NOTES_SUCCESS",
+					type: "SET_NOTES",
 					payload: {
 						notes,
-						notesLoading: false,
-						notesError: null,
 						showNewNoteForm: false,
 						isEditing: null,
 						editingNoteId: -1,
@@ -172,19 +155,6 @@ const NewNoteModal = () => {
 			showToast("Created new note.", "success");
 			resetNoteFormInput();
 		} catch (error) {
-			notesDispatch({
-				action: {
-					type: "SET_NOTES_ERROR",
-					payload: {
-						showNewNoteForm: false,
-						isEditing: null,
-						editingNoteId: -1,
-						notesLoading: false,
-						notesError:
-							"Could not create a new note. Please try again later.",
-					},
-				},
-			});
 			showToast(
 				"Failed to create new note. please try again later.",
 				"error"
