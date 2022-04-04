@@ -1,9 +1,4 @@
 import {
-	HomeOutlined,
-	LabelOutlined,
-	ArchiveOutlined,
-	DeleteOutlineOutlined,
-	AccountCircleOutlined,
 	Logout,
 	Close,
 	Add,
@@ -13,6 +8,7 @@ import { v4 as uuid } from "uuid";
 import { Link, useNavigate } from "react-router-dom";
 
 import "./sidebar.css";
+import { sidebarSections } from './sidebar-sections';
 import { useAuth, useNotes } from "contexts/";
 import { useState } from "react";
 
@@ -23,39 +19,6 @@ const Sidebar = () => {
 	const { authDispatch, authUser, isAuth } = useAuth();
 	const { notesDispatch, showSidebar, handleShowSidebar, labels } =
 		useNotes();
-
-	const sidebarSections = [
-		{
-			key: uuid(),
-			icon: <HomeOutlined />,
-			name: "Home",
-			path: "/",
-		},
-		{
-			key: uuid(),
-			icon: <LabelOutlined />,
-			name: "Labels",
-			path: "/labels",
-		},
-		{
-			key: uuid(),
-			icon: <ArchiveOutlined />,
-			name: "Archive",
-			path: "/archive",
-		},
-		{
-			key: uuid(),
-			icon: <DeleteOutlineOutlined />,
-			name: "Trash",
-			path: "trash",
-		},
-		{
-			key: uuid(),
-			icon: <AccountCircleOutlined />,
-			name: "Profile",
-			path: "profile",
-		},
-	];
 
 	const labelMapping = (
 		labels.length > 0 && <ul className="list list-spaced mt-0-5 list-style-none pl-2-5 list-labels flex-col align-center">
