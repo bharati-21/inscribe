@@ -16,6 +16,7 @@ import "./sidebar.css";
 import { useAuth, useNotes } from "contexts/";
 import { useState } from "react";
 
+
 const Sidebar = () => {
 	const [newLabel, setNewLabel] = useState("");
 	const navigate = useNavigate();

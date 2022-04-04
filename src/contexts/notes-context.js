@@ -15,7 +15,6 @@ const { Provider } = NotesContext;
 
 const NotesProvider = ({ children }) => {
 	const { isAuth } = useAuth();
-
 	const { showToast } = useToastify();
 	const [searchText, setSearchText] = useState("");
 
