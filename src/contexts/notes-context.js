@@ -16,7 +16,8 @@ const { Provider } = NotesContext;
 const NotesProvider = ({ children }) => {
 	const { isAuth } = useAuth();
 
-    const { showToast } = useToastify();
+	const { showToast } = useToastify();
+	const [searchText, setSearchText] = useState("");
 
 	const fetchNotes = async (authToken) => {
 		try {
@@ -41,15 +42,15 @@ const NotesProvider = ({ children }) => {
 				action: {
 					type: "SET_NOTES_ERROR",
 					payload: {
-                        showNewNoteForm: false,
-                        isEditing: null,
-                        editingNoteId: -1,
+						showNewNoteForm: false,
+						isEditing: null,
+						editingNoteId: -1,
 						notesLoading: false,
 						notesError: "Couldn't load notes. Try again later.",
 					},
 				},
 			});
-            showToast('Failed to load notes. Try again later.', 'error')
+			showToast("Failed to load notes. Try again later.", "error");
 		}
 	};
 
@@ -65,10 +66,25 @@ const NotesProvider = ({ children }) => {
 		initialNotesState
 	);
 
+	useEffect(() => {
+		const newFilterByLabels = notesState.labels.map(({ label, id }) => {
+			const foundLabel = notesState.filterByLabel.find(
+				(filter) => filter.id === id
+			);
+			return foundLabel ? foundLabel : { id, label, filtered: false };
+		});
+
+		notesDispatch({
+			action: { type: "FILTER_BY_LABELS", payload: { filterByLabel: newFilterByLabels } }
+		});
+	}, [notesState.labels]);
+
 	const [showSidebar, setShowSidebar] = useState(false);
 
 	const handleShowSidebar = () =>
 		setShowSidebar((prevShowSidebar) => !prevShowSidebar);
+
+	const handleChangeSearchText = (event) => setSearchText(event.target.value);
 
 	return (
 		<Provider
@@ -77,6 +93,8 @@ const NotesProvider = ({ children }) => {
 				showSidebar,
 				handleShowSidebar,
 				notesDispatch,
+				searchText,
+				handleChangeSearchText,
 			}}
 		>
 			{children}
