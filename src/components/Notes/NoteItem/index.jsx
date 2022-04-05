@@ -200,27 +200,26 @@ const NoteItem = ({ note }) => {
 		}
 	};
 
-    const handleDeleteTrashedNoteForever = async () => {
-        try {
-            const {
+	const handleDeleteTrashedNoteForever = async () => {
+		try {
+			const {
 				data: { trash },
 			} = await restoreTrashedNoteService(_id, authToken);
 
-            notesDispatch({
+			notesDispatch({
 				action: {
 					type: "SET_TRASH",
 					payload: { trash },
 				},
 			});
 			showToast("Deleted note from trash.", "success");
-        }
-        catch(error) {
-            showToast(
+		} catch (error) {
+			showToast(
 				"Could not delete note from trash. Try again later.",
 				"error"
 			);
-        }
-    }
+		}
+	};
 
 	const trashNoteActions = (
 		<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
@@ -232,7 +231,10 @@ const NoteItem = ({ note }) => {
 					{<RestoreFromTrash />}
 				</span>
 			</button>
-			<button className="btn btn-icon btn-note-action" onClick={handleDeleteTrashedNoteForever}>
+			<button
+				className="btn btn-icon btn-note-action"
+				onClick={handleDeleteTrashedNoteForever}
+			>
 				<span className="icon mui-icon icon-delete-forever">
 					{<DeleteForever />}
 				</span>
@@ -260,62 +262,73 @@ const NoteItem = ({ note }) => {
 				<div className="note-timestamp text-sm gray-color">
 					{noteCreatedOn}
 				</div>
-				{itemInTrash ? (
-					trashNoteActions
-				) : (
-					<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
-						<button
-							className="btn btn-icon btn-note-action"
-							onClick={handleEditNote}
-						>
-							<span className="icon mui-icon icon-edit">
-								{<Edit />}
-							</span>
-						</button>
-						<div className="note-action-wrapper">
-							<button
-								className="btn btn-icon btn-note-action"
-								onClick={() =>
-									handleChangeOptions("colorPalette")
-								}
-							>
-								<span className="icon mui-icon icon-edit">
-									{<Palette />}
-								</span>
-							</button>
-							{showColorPalette && <ColorPalette />}
-						</div>
-						<div className="note-action-wrapper">
-							<button
-								className="btn btn-icon btn-note-action"
-								onClick={() =>
-									handleChangeOptions("labelOptions")
-								}
-							>
-								<span className="icon mui-icon icon-edit">
-									{<Label />}
-								</span>
-							</button>
-							{showLabelOptions && <LabelOptions note={note} />}
-						</div>
-						<button
-							className="btn btn-icon btn-note-action"
-							onClick={handleArchiveNote}
-						>
-							<span className="icon mui-icon icon-edit">
-								{archiveIcon}
-							</span>
-						</button>
-						<button
-							className="btn btn-icon btn-note-action"
-							onClick={handleDeleteNote}
-						>
-							<span className="icon mui-icon icon-edit">
-								{<Delete />}
-							</span>
-						</button>
-					</div>
-				)}
+				{
+                    itemInTrash
+					    ? isArchived && (
+							<p className="text-sm gray-color">Archived Note</p>
+					    )
+					: 
+                        null
+                }
+				{
+                    itemInTrash ? (
+					    trashNoteActions
+				    ) 
+                    : (
+                        <div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
+                            <button
+                                className="btn btn-icon btn-note-action"
+                                onClick={handleEditNote}
+                            >
+                                <span className="icon mui-icon icon-edit">
+                                    {<Edit />}
+                                </span>
+                            </button>
+                            <div className="note-action-wrapper">
+                                <button
+                                    className="btn btn-icon btn-note-action"
+                                    onClick={() =>
+                                        handleChangeOptions("colorPalette")
+                                    }
+                                >
+                                    <span className="icon mui-icon icon-edit">
+                                        {<Palette />}
+                                    </span>
+                                </button>
+                                {showColorPalette && <ColorPalette />}
+                            </div>
+                            <div className="note-action-wrapper">
+                                <button
+                                    className="btn btn-icon btn-note-action"
+                                    onClick={() =>
+                                        handleChangeOptions("labelOptions")
+                                    }
+                                >
+                                    <span className="icon mui-icon icon-edit">
+                                        {<Label />}
+                                    </span>
+                                </button>
+                                {showLabelOptions && <LabelOptions note={note} />}
+                            </div>
+                            <button
+                                className="btn btn-icon btn-note-action"
+                                onClick={handleArchiveNote}
+                            >
+                                <span className="icon mui-icon icon-edit">
+                                    {archiveIcon}
+                                </span>
+                            </button>
+                            <button
+                                className="btn btn-icon btn-note-action"
+                                onClick={handleDeleteNote}
+                            >
+                                <span className="icon mui-icon icon-edit">
+                                    {<Delete />}
+                                </span>
+                            </button>
+                        </div>
+				    )
+                }
 			</div>
 		</div>
 	);
