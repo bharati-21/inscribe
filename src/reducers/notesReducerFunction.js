@@ -129,6 +129,12 @@ const notesReducerFunction = (
                 archives,
                 trash
             }
+        
+        case actionTypes.SET_TRASH:
+            return {
+                ...prevNotesState,
+                trash
+            }
 
 		default:
 			return prevNotesState;
