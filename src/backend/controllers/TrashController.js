@@ -49,13 +49,13 @@ export const restoreFromTrashHandler = function (schema, request) {
 		}
 		const { noteId } = request.params;
 		const noteTobeRestored = user.trash.find(note => note._id === noteId);
-        if(noteTobeRestored.isArchived()) {
+        if(noteTobeRestored.isArchived) {
             user.archives.push({ ...noteTobeRestored });
         }
         else {
             user.notes.push({ ...noteTobeRestored });
         }
-        user.trash = user.trash.filter(note => note._id !== note);
+        user.trash = user.trash.filter(note => note._id !== noteId);
 	    this.db.users.update({ _id: user._id }, user);
 		return new Response(201, {}, { notes: user.notes, trash: user.trash, archives: user.archives });
 	} catch (error) {
