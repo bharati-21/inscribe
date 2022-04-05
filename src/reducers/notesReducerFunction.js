@@ -137,7 +137,7 @@ const notesReducerFunction = (
             }
 
 		default:
-			return prevNotesState;
+			throw new Error('Invalid Dispatch action type!');
 	}
 };
 
