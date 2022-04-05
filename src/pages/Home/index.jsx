@@ -26,15 +26,20 @@ const Home = () => {
                 ) : notesStateError ? (
                     errorMessage
                 ) : (
-                    <div className="notes-list-wrapper">
-                        {filteredAndSortedNotes.length ? (
-                            <NotesList notes={filteredAndSortedNotes} />
-                        ) : (
-                            <p className="text-lg text-center">
-                                You don't have any notes!
-                            </p>
-                        )}
-                    </div>
+                    <>
+                        { notes.length > 0 && <SearchBar /> }
+                        <div className="notes-list-wrapper">
+                            {
+                                filteredAndSortedNotes.length ? 
+                                    <NotesList notes={filteredAndSortedNotes} />
+                                : (
+                                    <p className="text-lg text-center">
+                                        You don't have any notes!
+                                    </p>
+                                )
+                            }
+                        </div>
+                    </>
 			    )
             }
 		</section>

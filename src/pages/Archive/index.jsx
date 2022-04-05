@@ -42,15 +42,17 @@ const Archive = () => {
                     errorMessage
                 ) : (
                     <>
-                        <SearchBar noteType="archives" />
+                        { archives.length > 0 && <SearchBar noteType="archives" /> }
                         <div className="notes-list-wrapper">
-                            {filteredAndSortedArchives.length ? (
-                                <NotesList notes={filteredAndSortedArchives} />
-                            ) : (
-                                <p className="text-lg text-center">
-                                    You don't have any archived notes!
-                                </p>
-                            )}
+                            {
+                                filteredAndSortedArchives.length ? 
+                                    <NotesList notes={filteredAndSortedArchives} />
+                                : (
+                                    <p className="text-lg text-center">
+                                        You don't have any archived notes!
+                                    </p>
+                                )
+                            }
                         </div>
                     </>
 			    )
