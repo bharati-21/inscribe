@@ -69,11 +69,9 @@ const LabelOptions = ({ note }) => {
 				} = await editNoteService(updatedNote, authToken);
 				notesDispatch({
 					action: {
-						type: "SET_NOTES_SUCCESS",
+						type: "SET_NOTES",
 						payload: {
 							notes,
-							notesLoading: false,
-							notesError: null,
 							showNewNoteForm: false,
 							isEditing: null,
 							editingNoteId: -1,

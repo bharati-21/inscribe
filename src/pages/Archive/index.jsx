@@ -3,9 +3,21 @@ import { useNotes } from "contexts/";
 import { getFilteredAndSortedNotes } from "utils";
 
 const Archive = () => {
-    const { archives, searchText, filterByLabel, sortBy } = useNotes();
+  const { archives, notesStateLoading, notesStateError } = useNotes();
 
-    const filteredAndSortedArchives = getFilteredAndSortedNotes(archives, searchText, filterByLabel, sortBy); 
+	const loadingMessage = (
+		<div className="message">
+			<p className="success-color text-lg my-1">Loading Archived Notes...</p>
+		</div>
+	);
+
+	const errorMessage = (
+		<div className="message">
+			<p className="error-color text-lg my-1">{notesStateError}</p>
+		</div>
+	);
+
+  const filteredAndSortedArchives = getFilteredAndSortedNotes(archives, searchText, filterByLabel, sortBy); 
 
 
 	return (

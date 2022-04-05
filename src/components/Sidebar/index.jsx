@@ -21,7 +21,7 @@ const Sidebar = () => {
 	const [newLabel, setNewLabel] = useState("");
 	const navigate = useNavigate();
 	const { authDispatch, authUser, isAuth } = useAuth();
-	const { notesDispatch, showSidebar, handleShowSidebar, labels } =
+	const { notesDispatch, showSidebar, handleShowSidebar, labels, notesStateError, notesStateLoading } =
 		useNotes();
 
 	const sidebarSections = [
@@ -122,6 +122,8 @@ const Sidebar = () => {
 
 	if (!isAuth) return null;
 
+    const buttonDisabled = notesStateLoading || notesStateError && 'btn-disabled';
+
 	return (
 		<aside className="sidebar flex-col flex-justify-between">
 			{showSidebar && (
@@ -147,10 +149,12 @@ const Sidebar = () => {
 								onChange={(e) => setNewLabel(e.target.value)}
 								placeholder="Enter new label"
 								required
+                                disabled={notesStateError || notesStateLoading}
 							/>
 							<button
 								type="submit"
-								className="btn btn-icon btn-primary btn-label-submit"
+								className={`btn btn-icon btn-primary btn-label-submit ${buttonDisabled}`}
+                                disabled={notesStateError || notesStateLoading}
 							>
 								{<Add />}
 							</button>
@@ -158,30 +162,33 @@ const Sidebar = () => {
 					</form>
 				</section>
 				<button
-					className="btn btn-primary btn-new-note btn-full-width px-0-75 py-0-25 mt-1-5 text-reg"
-					onClick={handleCreateNote}
+					className={`btn btn-primary btn-new-note btn-full-width px-0-75 py-0-25 mt-1-5 text-reg ${buttonDisabled}`}
+					onClick={handleCreateNote} disabled={notesStateError || notesStateLoading}
 				>
 					Create new note
 				</button>
 			</section>
-			<section className="sidebar-footer flex-row flex-align-center flex-justify-between flex-wrap">
-				<article className="user-info flex-row flex-align-center">
-					<img
-						src="https://elixir-ui.netlify.app/Components/assets/avatar-1.jpg"
-						alt="Extra Small Size Avatar"
-						className="avatar avatar-xs user-avatar"
-					/>
-					<p className="user-name text-sm">
-						{authUser.firstName} {authUser.lastName}
-					</p>
-				</article>
-				<button
-					className="btn btn-icon btn-logout"
-					onClick={handleLogout}
-				>
-					<Logout />
-				</button>
-			</section>
+			{
+                notesStateError && !notesStateLoading ? null :
+                <section className="sidebar-footer flex-row flex-align-center flex-justify-between flex-wrap">
+                    <article className="user-info flex-row flex-align-center">
+                        <img
+                            src="https://elixir-ui.netlify.app/Components/assets/avatar-1.jpg"
+                            alt="Extra Small Size Avatar"
+                            className="avatar avatar-xs user-avatar"
+                        />
+                        <p className="user-name text-sm">
+                            {authUser.firstName} {authUser.lastName}
+                        </p>
+                    </article>
+                    <button
+                        className="btn btn-icon btn-logout"
+                        onClick={handleLogout}
+                    >
+                        <Logout />
+                    </button>
+                </section>
+            }
 		</aside>
 	);
 };
