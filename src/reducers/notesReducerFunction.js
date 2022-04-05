@@ -5,6 +5,7 @@ const initialNotesState = {
 	notes: [],
 	archives: [],
 	labels: [],
+    trash: [],
 	notesStateLoading: true,
 	notesStateError: null,
 	showNewNoteForm: false,
@@ -32,6 +33,7 @@ const notesReducerFunction = (
 				labelId,
 				filterByLabel,
 				sortBy,
+                trash,
 			},
 		},
 	}
@@ -57,6 +59,7 @@ const notesReducerFunction = (
 				isEditing,
 				editingNoteId,
 				labels,
+                trash,
 			};
 
 		case actionTypes.INIT_NOTES_STATE_ERROR:
