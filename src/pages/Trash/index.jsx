@@ -1,6 +1,5 @@
 import { NotesList } from "components";
 import { useNotes } from "contexts/";
-import './trash.css';
 
 const Trash = () => {
 	const { trash, notesStateLoading, notesStateError } = useNotes();
@@ -18,8 +17,6 @@ const Trash = () => {
 			<p className="error-color text-lg my-1">{notesStateError}</p>
 		</div>
 	);
-
-    console.log(trash)
 
 	return (
 		<section className="section-wrapper flex-col flex-align-center flex-justify-start">
