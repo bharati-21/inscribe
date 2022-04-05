@@ -10,6 +10,7 @@ const notesActions = {
 	SORT_BY: "SORT_BY",
 	FILTER_BY_LABELS: "FILTER_BY_LABELS",
 	RESET_FILTERS: "RESET_FILTERS",
+	RESTORE_FROM_TRASH: "RESTORE_FROM_TRASH",
 };
 
 const authActions = {

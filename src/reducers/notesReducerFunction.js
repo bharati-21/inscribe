@@ -43,6 +43,7 @@ const notesReducerFunction = (
 			return {
 				...prevNotesState,
 				notes,
+                trash: trash || prevNotesState.trash,
 				showNewNoteForm,
 				isEditing,
 				editingNoteId,
@@ -90,6 +91,7 @@ const notesReducerFunction = (
 			return {
 				...prevNotesState,
 				archives,
+                trash,
 				isEditing,
 				editingNoteId,
 				showNewNoteForm,
@@ -119,6 +121,14 @@ const notesReducerFunction = (
 				sortBy,
 				filterByLabel,
 			};
+
+        case actionTypes.RESTORE_FROM_TRASH:
+            return {
+                ...prevNotesState,
+                notes,
+                archives,
+                trash
+            }
 
 		default:
 			return prevNotesState;
