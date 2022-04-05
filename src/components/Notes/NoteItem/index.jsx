@@ -19,6 +19,7 @@ import {
 	postArchiveService,
 	postUnarchiveService,
 	deleteArchivedNoteService,
+	restoreTrashedNoteService,
 } from "services";
 import { useAuth, useNotes } from "contexts";
 import { useToastify } from "custom-hook/useToastify";
@@ -178,6 +179,49 @@ const NoteItem = ({ note }) => {
 		</div>
 	);
 
+	const handleRestoreTrashedNote = async () => {
+		try {
+			const {
+				data: { trash, notes, archives },
+			} = await restoreTrashedNoteService(_id, authToken);
+
+			notesDispatch({
+				action: {
+					type: "RESTORE_FROM_TRASH",
+					payload: { trash, notes, archives },
+				},
+			});
+			showToast("Restored note from trash.", "success");
+		} catch (error) {
+			showToast(
+				"Could not restore note from trash. Try again later.",
+				"error"
+			);
+		}
+	};
+
+    const handleDeleteTrashedNoteForever = async () => {
+        try {
+            const {
+				data: { trash },
+			} = await restoreTrashedNoteService(_id, authToken);
+
+            notesDispatch({
+				action: {
+					type: "SET_TRASH",
+					payload: { trash },
+				},
+			});
+			showToast("Deleted note from trash.", "success");
+        }
+        catch(error) {
+            showToast(
+				"Could not delete note from trash. Try again later.",
+				"error"
+			);
+        }
+    }
+
 	const trashNoteActions = (
 		<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
 			<button
@@ -188,7 +232,7 @@ const NoteItem = ({ note }) => {
 					{<RestoreFromTrash />}
 				</span>
 			</button>
-			<button className="btn btn-icon btn-note-action">
+			<button className="btn btn-icon btn-note-action" onClick={handleDeleteTrashedNoteForever}>
 				<span className="icon mui-icon icon-delete-forever">
 					{<DeleteForever />}
 				</span>
