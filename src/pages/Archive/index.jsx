@@ -3,7 +3,7 @@ import { useNotes } from "contexts/";
 import { getFilteredAndSortedNotes } from "utils";
 
 const Archive = () => {
-  const { archives, notesStateLoading, notesStateError } = useNotes();
+  const { archives, notesStateLoading, notesStateError, searchText, filterByLabel, sortBy } = useNotes();
 
 	const loadingMessage = (
 		<div className="message">
