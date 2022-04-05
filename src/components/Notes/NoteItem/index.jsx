@@ -7,27 +7,33 @@ import {
 	Archive,
 	Delete,
 	Palette,
-    Unarchive,
-    Label
+	Unarchive,
+	Label,
+	RestoreFromTrash,
+	DeleteForever,
 } from "@mui/icons-material";
 
 import { ColorPalette, LabelOptions } from "components/";
-import { deleteNoteService, postArchiveService, postUnarchiveService, deleteArchivedNoteService } from "services";
+import {
+	deleteNoteService,
+	postArchiveService,
+	postUnarchiveService,
+	deleteArchivedNoteService,
+} from "services";
 import { useAuth, useNotes } from "contexts";
 import { useToastify } from "custom-hook/useToastify";
 
 const NoteItem = ({ note }) => {
+	const { _id, noteTitle, noteBody, noteCreatedOn, isArchived, tags } = note;
 
-    const { _id, noteTitle, noteBody, noteCreatedOn, isArchived, tags } = note;
-
-    const initialShowOptions = {
-        showColorPalette: false,
-        showLabelOptions: false,
-    }
+	const initialShowOptions = {
+		showColorPalette: false,
+		showLabelOptions: false,
+	};
 
 	const [showOptions, setShowOptions] = useState({
 		showColorPalette: false,
-        showLabelOptions: false,
+		showLabelOptions: false,
 	});
 
 	const [pinned, setPinned] = useState(false);
@@ -35,32 +41,43 @@ const NoteItem = ({ note }) => {
 	const { showColorPalette, showLabelOptions } = showOptions;
 
 	const { authToken } = useAuth();
-	const { notesDispatch } = useNotes();
+	const { notesDispatch, trash } = useNotes();
 
 	const { showToast } = useToastify();
 
+	const itemInTrash = trash.find((note) => note._id === _id);
+
 	const handleChangeOptions = (option) => {
-		switch (option) {   
+		switch (option) {
 			case "colorPalette":
-                setShowOptions(prevShowOptions => ({...initialShowOptions, showColorPalette: !prevShowOptions.showColorPalette}));
-                break;
-            case 'labelOptions':
-                setShowOptions(prevShowOptions => ({...initialShowOptions, showLabelOptions: !prevShowOptions.showLabelOptions}));
-                break;
+				setShowOptions((prevShowOptions) => ({
+					...initialShowOptions,
+					showColorPalette: !prevShowOptions.showColorPalette,
+				}));
+				break;
+			case "labelOptions":
+				setShowOptions((prevShowOptions) => ({
+					...initialShowOptions,
+					showLabelOptions: !prevShowOptions.showLabelOptions,
+				}));
+				break;
 		}
 	};
 
-    const handleDeleteArchivedNote = async () => {
-        try {
-			const { data: { archives } } = await deleteArchivedNoteService(_id, authToken);
+	const handleDeleteArchivedNote = async () => {
+		try {
+			const {
+				data: { archives, trash },
+			} = await deleteArchivedNoteService(_id, authToken);
 			notesDispatch({
 				action: {
 					type: "EDIT_ARCHIVES",
 					payload: {
 						archives,
+						trash,
 						showNewNote: false,
-                        isEditing: null,
-                        editingNoteId: -1
+						isEditing: null,
+						editingNoteId: -1,
 					},
 				},
 			});
@@ -72,20 +89,23 @@ const NoteItem = ({ note }) => {
 				"error"
 			);
 		}
-    }
+	};
 
 	const handleDeleteNote = async () => {
-        if(isArchived) return handleDeleteArchivedNote();
+		if (isArchived) return handleDeleteArchivedNote();
 		try {
-			const { data } = await deleteNoteService(_id, authToken);
+			const {
+				data: { notes, trash },
+			} = await deleteNoteService(_id, authToken);
 			notesDispatch({
 				action: {
 					type: "SET_NOTES",
 					payload: {
-						notes: data.notes,
+						notes: notes,
+						trash: trash,
 						showNewNote: false,
-                        isEditing: null,
-                        editingNoteId: -1
+						isEditing: null,
+						editingNoteId: -1,
 					},
 				},
 			});
@@ -105,44 +125,76 @@ const NoteItem = ({ note }) => {
 				type: "SHOW_NEW_NOTE_FORM",
 				payload: {
 					showNewNoteForm: true,
-					isEditing: isArchived ? 'archive' : 'note',
+					isEditing: isArchived ? "archive" : "note",
 					editingNoteId: _id,
 				},
 			},
 		});
 	};
 
-    const handleArchiveNote = async () => {
-        try {
-            const  { data: { notes, archives } } = isArchived ? await postUnarchiveService(note, authToken) : await postArchiveService(note, authToken);
+	const handleArchiveNote = async () => {
+		try {
+			const {
+				data: { notes, archives },
+			} = isArchived
+				? await postUnarchiveService(note, authToken)
+				: await postArchiveService(note, authToken);
 
-            showToast(isArchived ? 'Note unarchived' : 'Note archived', 'success');
-            notesDispatch({
+			showToast(
+				isArchived ? "Note unarchived" : "Note archived",
+				"success"
+			);
+			notesDispatch({
 				action: {
 					type: "SET_ARCHIVES",
 					payload: {
 						notes,
-						archives
+						archives,
 					},
 				},
 			});
-        }
-        catch(error) {
-            showToast(isArchived ? 'Note could not be unarchived. Try again later' : 'Note could not be archived. Try again later', 'error');
-        }
-    }
+		} catch (error) {
+			showToast(
+				isArchived
+					? "Note could not be unarchived. Try again later"
+					: "Note could not be archived. Try again later",
+				"error"
+			);
+		}
+	};
 
 	const pinIcon = pinned ? <PushPin /> : <PushPinOutlined />;
-    const archiveIcon = isArchived ? <Unarchive /> : <Archive />
-    const mappedTags = tags.length > 0 && <div className="notes-tag-list flex-row flex-align-center flex-justify-start flex-wrap">
-        {
-            tags.map(({ label, id }) => 
-                <span className="badge badge-primary py-0-25 px-0-5 text-sm" key={id}>
-                    {label}
-                </span> 
-            )
-        }
-    </div>
+	const archiveIcon = isArchived ? <Unarchive /> : <Archive />;
+	const mappedTags = tags.length > 0 && (
+		<div className="notes-tag-list flex-row flex-align-center flex-justify-start flex-wrap">
+			{tags.map(({ label, id }) => (
+				<span
+					className="badge badge-primary py-0-25 px-0-5 text-sm"
+					key={id}
+				>
+					{label}
+				</span>
+			))}
+		</div>
+	);
+
+	const trashNoteActions = (
+		<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
+			<button
+				className="btn btn-icon btn-note-action"
+				onClick={handleRestoreTrashedNote}
+			>
+				<span className="icon mui-icon icon-restore-trash">
+					{<RestoreFromTrash />}
+				</span>
+			</button>
+			<button className="btn btn-icon btn-note-action">
+				<span className="icon mui-icon icon-delete-forever">
+					{<DeleteForever />}
+				</span>
+			</button>
+		</div>
+	);
 
 	return (
 		<div
@@ -159,55 +211,67 @@ const NoteItem = ({ note }) => {
 				value={noteBody}
 				readOnly
 			/>
-            { mappedTags }
+			{mappedTags}
 			<div className="note-info flex-row flex-align-center flex-justify-between flex-wrap">
 				<div className="note-timestamp text-sm gray-color">
 					{noteCreatedOn}
 				</div>
-				<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
-					<button
-						className="btn btn-icon btn-note-action"
-						onClick={handleEditNote}
-					>
-						<span className="icon mui-icon icon-edit">
-							{<Edit />}
-						</span>
-					</button>
-					<div className="note-action-wrapper">
+				{itemInTrash ? (
+					trashNoteActions
+				) : (
+					<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
 						<button
 							className="btn btn-icon btn-note-action"
-							onClick={() => handleChangeOptions("colorPalette")}
+							onClick={handleEditNote}
 						>
 							<span className="icon mui-icon icon-edit">
-								{<Palette />}
+								{<Edit />}
 							</span>
 						</button>
-						{showColorPalette && <ColorPalette />}
-					</div>
-                    <div className="note-action-wrapper">
+						<div className="note-action-wrapper">
+							<button
+								className="btn btn-icon btn-note-action"
+								onClick={() =>
+									handleChangeOptions("colorPalette")
+								}
+							>
+								<span className="icon mui-icon icon-edit">
+									{<Palette />}
+								</span>
+							</button>
+							{showColorPalette && <ColorPalette />}
+						</div>
+						<div className="note-action-wrapper">
+							<button
+								className="btn btn-icon btn-note-action"
+								onClick={() =>
+									handleChangeOptions("labelOptions")
+								}
+							>
+								<span className="icon mui-icon icon-edit">
+									{<Label />}
+								</span>
+							</button>
+							{showLabelOptions && <LabelOptions note={note} />}
+						</div>
 						<button
-							className="btn btn-icon btn-note-action" onClick={() => handleChangeOptions("labelOptions")}
+							className="btn btn-icon btn-note-action"
+							onClick={handleArchiveNote}
 						>
 							<span className="icon mui-icon icon-edit">
-								{<Label />}
+								{archiveIcon}
 							</span>
 						</button>
-                        {showLabelOptions && <LabelOptions note={note} />}
+						<button
+							className="btn btn-icon btn-note-action"
+							onClick={handleDeleteNote}
+						>
+							<span className="icon mui-icon icon-edit">
+								{<Delete />}
+							</span>
+						</button>
 					</div>
-					<button className="btn btn-icon btn-note-action" onClick={handleArchiveNote}>
-						<span className="icon mui-icon icon-edit">
-							{archiveIcon}
-						</span>
-					</button>
-					<button
-						className="btn btn-icon btn-note-action"
-						onClick={handleDeleteNote}
-					>
-						<span className="icon mui-icon icon-edit">
-							{<Delete />}
-						</span>
-					</button>
-				</div>
+				)}
 			</div>
 		</div>
 	);
