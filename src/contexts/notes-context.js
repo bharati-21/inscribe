@@ -7,7 +7,7 @@ import {
 } from "react";
 import { initialNotesState, notesReducerFunction } from "reducers/";
 import { useAuth } from "./";
-import { getNotesService } from "services/";
+import { getArchivedNotesService, getNotesService } from "services/";
 import { useToastify } from "custom-hook/useToastify";
 
 const NotesContext = createContext(initialNotesState);
@@ -23,29 +23,36 @@ const NotesProvider = ({ children }) => {
 			const {
 				data: { notes },
 			} = await getNotesService(authToken);
+			const {
+				data: { archives },
+			} = await getArchivedNotesService(authToken);
+
 			notesDispatch({
 				action: {
-					type: "SET_NOTES_SUCCESS",
+					type: "INIT_NOTES_STATE_SUCCESS",
 					payload: {
 						notes,
-						notesLoading: false,
-						notesError: null,
+						archives,
+						notesStateLoading: false,
+						notesStateError: null,
 						showNewNoteForm: false,
 						isEditing: null,
 						editingNoteId: -1,
+						labels: [],
 					},
 				},
 			});
 		} catch (error) {
 			notesDispatch({
 				action: {
-					type: "SET_NOTES_ERROR",
+					type: "INIT_NOTES_STATE_ERROR",
 					payload: {
 						showNewNoteForm: false,
 						isEditing: null,
 						editingNoteId: -1,
-						notesLoading: false,
-						notesError: "Couldn't load notes. Try again later.",
+						notesStateLoading: false,
+						notesStateError:
+							"Couldn't retrieve notes. Try again later.",
 					},
 				},
 			});

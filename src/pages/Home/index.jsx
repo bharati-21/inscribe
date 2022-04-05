@@ -3,16 +3,16 @@ import { useNotes } from "contexts/";
 import { getFilteredAndSortedNotes } from "utils";
 
 const Home = () => {
-	const { notes, notesLoading, notesError, searchText, sortBy, filterByLabel } = useNotes();
+	const { notes, searchText, sortBy, filterByLabel, notesStateLoading, notesStateError } = useNotes();
 
-	const loadingMessage = notesLoading && (
+	const loadingMessage = (
 		<div className="message">
 			<p className="success-color text-lg my-1">Loading Notes...</p>
 		</div>
 	);
-	const errorMessage = notesError && (
+	const errorMessage = (
 		<div className="message">
-			<p className="error-color text-lg my-1">{notesError}</p>
+			<p className="error-color text-lg my-1">{notesStateError}</p>
 		</div>
 	);
 
@@ -20,21 +20,23 @@ const Home = () => {
 
 	return (
 		<section className="section-wrapper flex-col flex-align-center flex-justify-start">
-			{loadingMessage ? (
-				loadingMessage
-			) : (
-				<>
-					{errorMessage}
-                    <SearchBar />
-					<div className="notes-list-wrapper">
-						{filteredAndSortedNotes.length ? (
-							<NotesList notes={filteredAndSortedNotes} />
-						) : (
-							<p className="text-lg text-center">You don't have any notes!</p>
-						)}
-					</div>
-				</>
-			)}
+			{
+                notesStateLoading ? (
+                    loadingMessage
+                ) : notesStateError ? (
+                    errorMessage
+                ) : (
+                    <div className="notes-list-wrapper">
+                        {filteredAndSortedNotes.length ? (
+                            <NotesList notes={filteredAndSortedNotes} />
+                        ) : (
+                            <p className="text-lg text-center">
+                                You don't have any notes!
+                            </p>
+                        )}
+                    </div>
+			    )
+            }
 		</section>
 	);
 };

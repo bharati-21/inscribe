@@ -80,11 +80,9 @@ const NoteItem = ({ note }) => {
 			const { data } = await deleteNoteService(_id, authToken);
 			notesDispatch({
 				action: {
-					type: "SET_NOTES_SUCCESS",
+					type: "SET_NOTES",
 					payload: {
 						notes: data.notes,
-						notesError: null,
-						notesLoading: false,
 						showNewNote: false,
                         isEditing: null,
                         editingNoteId: -1

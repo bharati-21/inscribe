@@ -8,3 +8,4 @@ export { postArchiveService } from './archive-services/postArchiveService';
 export { postUnarchiveService } from './archive-services/postUnarchiveService';
 export { editArchiveService } from './archive-services/editArchiveService';
 export { deleteArchivedNoteService } from './archive-services/deleteArchivedNoteService';
+export { getArchivedNotesService } from './archive-services/getArchivedNotesService';
