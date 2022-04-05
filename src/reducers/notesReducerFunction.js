@@ -33,7 +33,7 @@ const notesReducerFunction = (
 				labelId,
 				filterByLabel,
 				sortBy,
-                trash,
+        trash,
 			},
 		},
 	}
@@ -122,7 +122,7 @@ const notesReducerFunction = (
 				filterByLabel,
 			};
 
-        case actionTypes.RESTORE_FROM_TRASH:
+    case actionTypes.RESTORE_FROM_TRASH:
             return {
                 ...prevNotesState,
                 notes,
@@ -135,7 +135,6 @@ const notesReducerFunction = (
                 ...prevNotesState,
                 trash
             }
-
 		default:
 			throw new Error('Invalid Dispatch action type!');
 	}

@@ -33,6 +33,9 @@ const Archive = () => {
 		</div>
 	);
 
+  const filteredAndSortedArchives = getFilteredAndSortedNotes(archives, searchText, filterByLabel, sortBy); 
+
+
 	return (
 		<section className="section-wrapper flex-col flex-align-center flex-justify-start">
 			{
