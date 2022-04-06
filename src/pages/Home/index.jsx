@@ -3,7 +3,7 @@ import { useNotes } from "contexts/";
 import { getFilteredAndSortedNotes } from "utils";
 
 const Home = () => {
-	const { notes, notesStateLoading, notesStateError, searchText, sortBy, filterByLabel } = useNotes();
+	const { notes, searchText, sortBy, filterByLabel, notesStateLoading, notesStateError } = useNotes();
 
 	const loadingMessage = (
 		<div className="message">
@@ -20,22 +20,28 @@ const Home = () => {
 
 	return (
 		<section className="section-wrapper flex-col flex-align-center flex-justify-start">
-	    { notesStateLoading ? (
-            loadingMessage
-        ) : notesStateError ? (
-            errorMessage
-        ) : (
-				<>
-          <SearchBar />
-					<div className="notes-list-wrapper">
-						{filteredAndSortedNotes.length ? (
-							<NotesList notes={filteredAndSortedNotes} />
-						) : (
-							<p className="text-lg text-center">You don't have any notes!</p>
-						)}
-					</div>
-				</>
-			)}
+			{
+                notesStateLoading ? (
+                    loadingMessage
+                ) : notesStateError ? (
+                    errorMessage
+                ) : (
+                    <>
+                        { notes.length > 0 && <SearchBar /> }
+                        <div className="notes-list-wrapper">
+                            {
+                                filteredAndSortedNotes.length ? 
+                                    <NotesList notes={filteredAndSortedNotes} />
+                                : (
+                                    <p className="text-lg text-center">
+                                        You don't have any notes!
+                                    </p>
+                                )
+                            }
+                        </div>
+                    </>
+			    )
+            }
 		</section>
 	);
 };

@@ -7,7 +7,7 @@ import {
 } from "react";
 import { initialNotesState, notesReducerFunction } from "reducers/";
 import { useAuth } from "./";
-import { getArchivedNotesService, getNotesService } from "services/";
+import { getArchivedNotesService, getNotesService, getTrashedNotesService } from "services/";
 import { useToastify } from "custom-hook/useToastify";
 
 const NotesContext = createContext(initialNotesState);
@@ -26,6 +26,7 @@ const NotesProvider = ({ children }) => {
 			const {
 				data: { archives },
 			} = await getArchivedNotesService(authToken);
+            const { data: { trash } } = await getTrashedNotesService(authToken);
 
 			notesDispatch({
 				action: {
@@ -39,6 +40,7 @@ const NotesProvider = ({ children }) => {
 						isEditing: null,
 						editingNoteId: -1,
 						labels: [],
+                        trash,
 					},
 				},
 			});

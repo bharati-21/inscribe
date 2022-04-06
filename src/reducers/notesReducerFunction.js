@@ -5,6 +5,7 @@ const initialNotesState = {
 	notes: [],
 	archives: [],
 	labels: [],
+    trash: [],
 	notesStateLoading: true,
 	notesStateError: null,
 	showNewNoteForm: false,
@@ -32,6 +33,7 @@ const notesReducerFunction = (
 				labelId,
 				filterByLabel,
 				sortBy,
+        trash,
 			},
 		},
 	}
@@ -41,6 +43,7 @@ const notesReducerFunction = (
 			return {
 				...prevNotesState,
 				notes,
+                trash: trash || prevNotesState.trash,
 				showNewNoteForm,
 				isEditing,
 				editingNoteId,
@@ -57,6 +60,7 @@ const notesReducerFunction = (
 				isEditing,
 				editingNoteId,
 				labels,
+                trash,
 			};
 
 		case actionTypes.INIT_NOTES_STATE_ERROR:
@@ -87,6 +91,7 @@ const notesReducerFunction = (
 			return {
 				...prevNotesState,
 				archives,
+                trash,
 				isEditing,
 				editingNoteId,
 				showNewNoteForm,
@@ -117,8 +122,21 @@ const notesReducerFunction = (
 				filterByLabel,
 			};
 
+    case actionTypes.RESTORE_FROM_TRASH:
+            return {
+                ...prevNotesState,
+                notes,
+                archives,
+                trash
+            }
+        
+        case actionTypes.SET_TRASH:
+            return {
+                ...prevNotesState,
+                trash
+            }
 		default:
-			return prevNotesState;
+			throw new Error('Invalid Dispatch action type!');
 	}
 };
 

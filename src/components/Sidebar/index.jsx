@@ -13,6 +13,7 @@ import { v4 as uuid } from "uuid";
 import { Link, useNavigate } from "react-router-dom";
 
 import "./sidebar.css";
+import { sidebarSections } from './sidebar-sections';
 import { useAuth, useNotes } from "contexts/";
 import { useState } from "react";
 
