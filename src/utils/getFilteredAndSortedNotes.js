@@ -1,8 +1,8 @@
 import { getFilteredNotes } from './getFilteredNotes';
 import { getSortedNotes } from './getSortedNotes'; 
 
-const getFilteredAndSortedNotes = (notes, searchText, filterByLabel, sortBy) => {
-    const filteredNotes = getFilteredNotes(notes, searchText, filterByLabel);
+const getFilteredAndSortedNotes = (notes, searchText, filterByLabel, sortBy, filterByPriority) => {
+    const filteredNotes = getFilteredNotes(notes, searchText, filterByLabel, filterByPriority);
     const filteredAndSortedNotes = getSortedNotes(filteredNotes, sortBy); 
     return filteredAndSortedNotes;
 }
