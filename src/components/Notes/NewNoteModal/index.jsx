@@ -156,8 +156,6 @@ const NewNoteModal = () => {
 				{ authorization: authToken, }
 			);
 
-            console.log(notes)
-
 			notesDispatch({
 				action: {
 					type: "SET_NOTES",

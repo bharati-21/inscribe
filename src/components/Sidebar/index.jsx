@@ -25,11 +25,15 @@ const Sidebar = () => {
 	const { notesDispatch, showSidebar, handleShowSidebar, labels, notesStateError, notesStateLoading } =
 		useNotes();
 
-	const labelMapping = (
-		labels.length > 0 && <ul className="list list-spaced mt-0-5 list-style-none pl-2-5 list-labels flex-col align-center">
-			{labels.map(({ label, id }) => (
-				<li key={id} className="text-reg">{label}</li>
-			))}
+	const labelMapping = labels.length > 0 && (
+		<ul className="list list-spaced mt-0-5 list-style-none pl-2-5 list-labels flex-col align-center">
+			{
+                labels.map(({ label, id }) => (
+                    <li key={id} className="text-reg">
+                        {label}
+                    </li>
+                )
+            )}
 		</ul>
 	);
 
