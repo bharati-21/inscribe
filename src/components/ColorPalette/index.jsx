@@ -55,6 +55,7 @@ const ColorPalette = ({ handleChangeNoteBackgroundColor, noteBackgroundColor }) 
 			className={`color-sphere color-${value} btn btn-icon ${noteBackgroundColor === value ? 'color-sphere  selected-color' : 'color-sphere'}`}
 			style={{ backgroundColor: value }}
             value={value}
+            name="noteBackgroundColor"
             onClick={handleChangeNoteBackgroundColor}
 		></button>
 	));
