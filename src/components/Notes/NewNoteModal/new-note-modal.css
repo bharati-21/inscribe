@@ -11,8 +11,7 @@
 .new-note-form {
     max-width: 500px;
     max-height: 90vh;
-    min-height: max-content;
-    overflow: auto;
+    height: max-content;
     gap: var(--space-0-5);
     position: relative;
 }
@@ -39,4 +38,18 @@
     position: absolute;
     right: 1.5rem;
     top: 1.5rem;
+}
+
+.new-note-form .note-actions {
+    width: 100%;
+}
+
+.priority-dropdown {
+    outline: none;
+    background-color: inherit;
+    border-radius: var(--br-2);
+    -webkit-border-radius: var(--br-2);
+    -moz-border-radius: var(--br-2);
+    -ms-border-radius: var(--br-2);
+    -o-border-radius: var(--br-2);
 }
