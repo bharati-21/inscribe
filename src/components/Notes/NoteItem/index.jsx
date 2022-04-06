@@ -334,48 +334,6 @@ const NoteItem = ({ note }) => {
 		</div>
 	);
 
-	const handleRestoreTrashedNote = async () => {
-		try {
-			const {
-				data: { trash, notes, archives },
-			} = await restoreTrashedNoteService(_id, authToken);
-
-			notesDispatch({
-				action: {
-					type: "RESTORE_FROM_TRASH",
-					payload: { trash, notes, archives },
-				},
-			});
-			showToast("Restored note from trash.", "success");
-		} catch (error) {
-			showToast(
-				"Could not restore note from trash. Try again later.",
-				"error"
-			);
-		}
-	};
-
-	const handleDeleteTrashedNoteForever = async () => {
-		try {
-			const {
-				data: { trash },
-			} = await restoreTrashedNoteService(_id, authToken);
-
-			notesDispatch({
-				action: {
-					type: "SET_TRASH",
-					payload: { trash },
-				},
-			});
-			showToast("Deleted note from trash.", "success");
-		} catch (error) {
-			showToast(
-				"Could not delete note from trash. Try again later.",
-				"error"
-			);
-		}
-	};
-
 	const trashNoteActions = (
 		<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
 			<button
