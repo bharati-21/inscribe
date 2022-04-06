@@ -20,13 +20,12 @@ import {
 	postUnarchiveService,
 	deleteArchivedNoteService,
 	restoreTrashedNoteService,
-    editNoteService,
-    editArchiveService,
+  editNoteService,
+  editArchiveService,
 } from "services";
 import { useAuth, useNotes } from "contexts";
 import { useToastify } from "custom-hook/useToastify";
 import { notePriorities } from '../note-priorities';
-
 
 const NoteItem = ({ note }) => {
 	const { _id, noteTitle, noteBody, noteCreatedOn, isArchived, tags, noteBackgroundColor, notePriority } = note;
@@ -319,7 +318,7 @@ const NoteItem = ({ note }) => {
             showToast('Could not update note priority. Try again later!', 'error');
         }
     }
-    
+ 
 	const pinIcon = pinned ? <PushPin /> : <PushPinOutlined />;
 	const archiveIcon = isArchived ? <Unarchive /> : <Archive />;
 	const mappedTags = tags.length > 0 && (
@@ -334,6 +333,48 @@ const NoteItem = ({ note }) => {
 			))}
 		</div>
 	);
+
+	const handleRestoreTrashedNote = async () => {
+		try {
+			const {
+				data: { trash, notes, archives },
+			} = await restoreTrashedNoteService(_id, authToken);
+
+			notesDispatch({
+				action: {
+					type: "RESTORE_FROM_TRASH",
+					payload: { trash, notes, archives },
+				},
+			});
+			showToast("Restored note from trash.", "success");
+		} catch (error) {
+			showToast(
+				"Could not restore note from trash. Try again later.",
+				"error"
+			);
+		}
+	};
+
+	const handleDeleteTrashedNoteForever = async () => {
+		try {
+			const {
+				data: { trash },
+			} = await restoreTrashedNoteService(_id, authToken);
+
+			notesDispatch({
+				action: {
+					type: "SET_TRASH",
+					payload: { trash },
+				},
+			});
+			showToast("Deleted note from trash.", "success");
+		} catch (error) {
+			showToast(
+				"Could not delete note from trash. Try again later.",
+				"error"
+			);
+		}
+	};
 
 	const trashNoteActions = (
 		<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
@@ -375,7 +416,8 @@ const NoteItem = ({ note }) => {
 				readOnly
 			/>
 			{mappedTags}
-			<div className="note-info flex-row flex-align-center flex-justify-between">
+
+      <div className="note-info flex-row flex-align-center flex-justify-between flex-wrap">
 				<div className="note-timestamp text-sm secondary-color">
 					{noteCreatedOn}
 				</div>

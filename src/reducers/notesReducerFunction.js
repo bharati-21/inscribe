@@ -41,8 +41,8 @@ const notesReducerFunction = (
 				labelId,
 				filterByLabel,
 				sortBy,
-                trash,
-                filterByPriority
+        trash,
+        filterByPriority
 			},
 		},
 	}
@@ -100,7 +100,7 @@ const notesReducerFunction = (
 			return {
 				...prevNotesState,
 				archives,
-                trash: (trash || prevNotesState.trash),
+        trash: (trash || prevNotesState.trash),
 				isEditing,
 				editingNoteId,
 				showNewNoteForm,
