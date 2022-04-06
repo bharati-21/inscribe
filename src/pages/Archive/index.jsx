@@ -10,13 +10,15 @@ const Archive = () => {
 		sortBy,
 		notesStateLoading,
 		notesStateError,
+        filterByPriority
 	} = useNotes();
 
 	const filteredAndSortedArchives = getFilteredAndSortedNotes(
 		archives,
 		searchText,
 		filterByLabel,
-		sortBy
+		sortBy,
+        filterByPriority
 	);
 
 	const loadingMessage = (
