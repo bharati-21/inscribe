@@ -11,15 +11,15 @@
 .new-note-form {
     max-width: 500px;
     max-height: 90vh;
+    min-height: max-content;
     overflow: auto;
-    /* width: 100%; */
     gap: var(--space-0-5);
     position: relative;
 }
 
 .new-note-form .note-title,
 .new-note-form .note-body {
-    border: 2px solid var(--light-gray-color);
+    border: 2px solid rgba(0, 0, 0, 0.15);
     border-radius: 2px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
