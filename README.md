@@ -57,7 +57,9 @@ Features include-
 - Users can also add in background colors to the notes.
 - Users can add labels and view all notes by labels.
 
-UI consists of -
+- Preview
+![Notes App Preview](https://user-images.githubusercontent.com/51514137/162265907-57fc1b87-1bed-46cf-a4e8-a0b2a8deb088.png)
+
 
 <br />
 <br />
