@@ -15,7 +15,7 @@
 <div align="center">
 <img src="https://img.shields.io/badge/version-v1-green" align="center"/>
 <img src="https://img.shields.io/badge/label-open--source-blue" align="center"/>
-    <a href="https://app.netlify.com/sites/bookery/deploys" align="center">
+    <a href="https://app.netlify.com/sites/inscribe-notes/deploys" align="center">
         <img src="https://api.netlify.com/api/v1/badges/8b083945-912e-4f2d-90fd-9f8bcf06aeee/deploy-status" align="center"/>
     </a>
 </div>
