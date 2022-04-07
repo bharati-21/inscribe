@@ -8,6 +8,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "../auth.css";
 import { signupService } from "services/";
 import { useAuth } from "contexts/";
+import { useToastify } from "custom-hook/useToastify";
 
 
 const Signup = () => {
@@ -17,13 +18,16 @@ const Signup = () => {
         lastName: '',
         email: '',
         password: '',
+        confirmPassword: ''
     };
 
     const [formData, setFormData] = useState(initialFormData);
     const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();
+    const { showToast } = useToastify();
 
     const { isAuth, authLoading, authError, authDispatch } = useAuth();
 
@@ -38,15 +42,26 @@ const Signup = () => {
     }
 
     const showPasswordIcon = showPassword ? <VisibilityOffIcon /> : <VisibilityIcon /> 
+    const showConfirmPasswordIcon = showConfirmPassword ? <VisibilityOffIcon /> : <VisibilityIcon />
+
+    const { firstName, lastName, email, password, confirmPassword } = formData;
 
     const handleFormSubmit = async event => {
         event.preventDefault();
 
-        try {
-            const { data } = await signupService(formData);
-            const { encodedToken, createdUser: { notes, archives, ...otherUserDetails } } = data;
+        if(password !== confirmPassword) {
+            showToast('Password and Confirm Password do not match', 'error');
+            return;
+        }
 
-            authDispatch({
+        try {
+			const { data } = await signupService(formData);
+			const {
+				encodedToken,
+				createdUser: { notes, archives, ...otherUserDetails },
+			} = data;
+
+			authDispatch({
 				action: {
 					type: "INIT_AUTH",
 					payload: {
@@ -59,31 +74,33 @@ const Signup = () => {
 				},
 			});
 
-      localStorage.setItem("inscribe-token", encodedToken);
-			localStorage.setItem("inscribe-user", JSON.stringify(otherUserDetails));
+			localStorage.setItem("inscribe-token", encodedToken);
+			localStorage.setItem(
+				"inscribe-user",
+				JSON.stringify(otherUserDetails)
+			);
 
 			const timeoutId = setTimeout(() => {
 				setFormData(initialFormData);
-                
-                authDispatch({
-                    action: {
-                        type: "INIT_AUTH",
-                        payload: {
-                            isAuth: true,
-                            authToken: encodedToken,
-                            authUser: { ...otherUserDetails },
-                            authLoading: false,
-                            authError: null,
-                        },
-                    },
-                });
+
+				authDispatch({
+					action: {
+						type: "INIT_AUTH",
+						payload: {
+							isAuth: true,
+							authToken: encodedToken,
+							authUser: { ...otherUserDetails },
+							authLoading: false,
+							authError: null,
+						},
+					},
+				});
 
 				location.state?.from
 					? navigate(location.state.from)
 					: navigate("/");
 			}, 3000);
-		} 
-        catch (error) {
+		} catch (error) {
 			localStorage.removeItem("inscribe-token");
 			localStorage.removeItem("inscribe-user");
 			authDispatch({
@@ -102,8 +119,8 @@ const Signup = () => {
 		}
 	};
 
-    const { firstName, lastName, email, password } = formData;
     const handleChangePasswordVisibility = () => setShowPassword(prevShowPassword => !prevShowPassword);
+    const handleChangeConfirmPasswordVisibility = () => setShowConfirmPassword(prevShowConfirmPassword => !prevShowConfirmPassword);
 
     const btnDisabled = authLoading && 'btn-disabled';
     const linkDisabled = authLoading && 'link-disabled'
@@ -145,6 +162,20 @@ const Signup = () => {
                                     <button type="button" className="btn btn-icon icon-show-psd" onClick={handleChangePasswordVisibility} disabled={authLoading} >
                                         <span className="icon mui-icon">
                                             {showPasswordIcon}
+                                        </span>
+                                    </button>
+                                </span>  
+                            </label>
+                            <span className="text-message mt-0-5"></span>
+                        </div> 
+                        <div className="input-group input-default mt-1-5 mb-1 mx-auto">
+                            <label className="text-label text-reg flex-col mx-auto text-sm" htmlFor="input-confirm-psd">
+                            Confirm Password
+                                <span className="password-input-toggler">
+                                    <input type={`${showConfirmPassword ? 'text' : 'password'}`} id="input-confirm-psd" className="input-text px-0-75 py-0-5 mt-0-25 text-sm" placeholder="********" autoComplete='off' name="confirmPassword" onChange={handleFormDataChange} value={confirmPassword} required disabled={authLoading} />
+                                    <button type="button" className={`btn btn-icon icon-show-psd ${authLoading && 'btn-disabled'}`} onClick={handleChangeConfirmPasswordVisibility} disabled={authLoading} >
+                                        <span className="icon mui-icon">
+                                            {showConfirmPasswordIcon}
                                         </span>
                                     </button>
                                 </span>  

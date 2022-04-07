@@ -109,7 +109,7 @@
     width: 100%;
 }
 
-.disabled-link {
+.link-disabled {
     pointer-events: none;
 }
 
