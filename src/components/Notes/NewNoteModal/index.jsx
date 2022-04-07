@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import TextareaAutosize from "react-textarea-autosize";
+import { RichTextEditor } from '../RichTextEditor'
 import { Palette } from "@mui/icons-material";
 
 import "./new-note-modal.css";
@@ -61,6 +62,10 @@ const NewNoteModal = () => {
 			...prevNoteItem,
 			[name]: value,
 		}));
+	};
+
+    const handleNoteBodyChange = (value) => {
+		setNoteItem(prevNoteItem => ({ ...prevNoteItem, noteBody: value }));
 	};
 
 	const resetNoteFormInput = () => {
@@ -210,15 +215,13 @@ const NewNoteModal = () => {
 					placeholder="Enter Note Title"
 					autoComplete="off"
 				/>
-				<TextareaAutosize
-					className="note-body p-0-5 multline-textarea"
-					value={noteBody}
-					name="noteBody"
-					onChange={handleNoteItemChange}
-					tabIndex="2"
-					placeholder="Enter Note Body"
-					autoComplete="off"
-				/>
+                <div className="note-body p-0-5 multline-text-area">
+                    <RichTextEditor  
+                        noteBody={noteBody}
+                        handleNoteBodyChange={handleNoteBodyChange}
+                    />
+                </div>
+				
 				<div className="button-container flex-row flex-justify-between flex-align-center mt-1">
 					<input
 						type="button"
