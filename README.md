@@ -1,70 +1,123 @@
-# Getting Started with Create React App
+<h1 align="center">
+  <br />
+  <a href="https://inscribe-notes.netlify.app/">
+      <img src="https://github.com/bharati-21/elixir-ui/blob/9e0021ca0eb8952f6bf408d9f2a119439ac359a2/logo-assets/elixir-logo.png" alt="Elixir UI" width="200"></a>
+  <br />
+  <br />
+  Bookery 
+</h1>
+<p align="center">by elixir designs</p>
+<br />
+<h3 align="center">
+    Inscribe faster and better.
+</h3>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<div align="center">
+<img src="https://img.shields.io/badge/version-v1-green" align="center"/>
+<img src="https://img.shields.io/badge/label-open--source-blue" align="center"/>
+    <a href="https://app.netlify.com/sites/bookery/deploys" align="center">
+        <img src="https://api.netlify.com/api/v1/badges/8b083945-912e-4f2d-90fd-9f8bcf06aeee/deploy-status" align="center"/>
+    </a>
+</div>
+<br />
 
-## Available Scripts
+<!-- TABLE OF CONTENTS -->
+<details>
+    <summary>Content</summary>
+    <ol>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#technology-languages-used">Technology/ Languages Used</a></li>
+        <li><a href="#how-to-run-locally">How to Run Locally</a></li>
+        <li><a href="#how-to-contribute">How to Contribute</a></li>
+        <li><a href="#social-links">Social Links</a></li>
+    </ol>
+</details>
 
-In the project directory, you can run:
+<br />
 
-### `yarn start`
+<!-- Project Introduction -->
+## **Introduction**
+<p>
+    Inscribe is a note taking app that makes you efficient and helps in faster and better note taking.
+</p>
+<br />
+Visit <a href="https://inscribe-notes.netlify.app/">bookery</a> and note down your musings, thoughts, information - all in one place!
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+<br />
+<br />
+<!-- FEATURES -->
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## **FEATURES**
 
-### `yarn test`
+Features include-
+- Users can add notes and use the inbuilt rich text editor
+- Users can archive, unarchive or move a note to the trash.
+- Users can filter and sort by labels, priorities, and date created.
+- Users can also add in background colors to the notes.
+- Users can add labels and view all notes by labels.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+UI consists of -
 
-### `yarn build`
+<br />
+<br />
+<!-- BUILT WITH -->
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## **Technology/ Languages Used**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- CSS
+- <a href="https://elixir-ui.netlify.app/">Elixir UI - Component Library</a>
+- ReactJS
+- React Router v6
+- MockBee
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br />
+<br />
+<!-- HOW TO RUN LOCALLY -->
 
-### `yarn eject`
+## **How to Run locally**
+- To run this project locally, use the following command in your CLI:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```bash
+  git clone https://github.com/bharati-21/inscribe.git
+```
+- Open your favorite code editor and run locally!
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<br />
+<br />
+<!-- CONTRIBUTING -->
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## **How to Contribute**
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Contributions and ideas to this library are more than welcome! <br />
+If you want to contribute or have ideas for this project, just fork the repo and create a PR. If you spot a bug, you are more than welcome to open an issue! Do ⭐ this project! 
 
-## Learn More
+### Contribution Guidelines
+1. Fork the Project
+2. Creata a branch for your feature/ idea. Please do give a good name for the branch that tells about the feature.
+3. Stage your changes
+4. Commit your changes
+5. Push the changes to your remote branch
+6. Open and Create a PR
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<br />
+<br />
+<!-- SOCIAL LINKS -->
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## **Social Links**
+Let's connect and talk about development, music, books and much more 🌠! 
+> [GitHub Profile](https://github.com/bharati-21) &nbsp;&middot;&nbsp; 
+> [LinkedIn Profile](https://www.linkedin.com/in/bharati-subramanian-29734b152/) &nbsp;&middot;&nbsp;
+> [Twitter Profile](https://twitter.com/_bhaaratii) &nbsp;&middot;&nbsp;
+> [Dev.to Blogs](https://dev.to/bharati21) &nbsp;&middot;&nbsp;
 
-### Code Splitting
+<br />
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Check out my developer portfolio 🌐-
+> [Bharati Subramanian](https://bharati-21.github.io/) 
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<hr />
+<p align="center">Copyright &copy; 2022 
+  <br />
+  <a href="https://bharati-21.github.io/">👩‍💻 Bharati Subramanian</a>
+</p>
