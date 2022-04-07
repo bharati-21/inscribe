@@ -4,4 +4,5 @@ export { Profile } from './Profile';
 export { Trash } from './Trash'; 
 export { Archive } from './Archive';
 export { Login } from './Auth/Login';
-export { Signup } from './Auth/Signup'; 
+export { Signup } from './Auth/Signup';
+export { NotFound } from './NotFound'; 
