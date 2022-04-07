@@ -26,6 +26,7 @@ import {
 import { useAuth, useNotes } from "contexts";
 import { useToastify } from "custom-hook/useToastify";
 import { notePriorities } from '../note-priorities';
+import parse from 'html-react-parser';
 
 const NoteItem = ({ note }) => {
 	const { _id, noteTitle, noteBody, noteCreatedOn, isArchived, tags, noteBackgroundColor, notePriority } = note;
@@ -368,11 +369,10 @@ const NoteItem = ({ note }) => {
 				className="note-title p-0-5"
 				readOnly
 			/>
-			<TextareaAutosize
-				className="note-body p-0-5 pr-0-75"
-				value={noteBody}
-				readOnly
-			/>
+			<div className="note-body p-0-5 pr-0-75">
+                {parse(`${noteBody}`)}
+            </div>
+
 			{mappedTags}
 
       <div className="note-info flex-row flex-align-center flex-justify-between flex-wrap">

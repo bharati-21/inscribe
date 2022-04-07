@@ -10,10 +10,19 @@
 
 .new-note-form {
     max-width: 500px;
-    max-height: 90vh;
+    max-height: 60vh;
+    position: static;
+    overflow-y: auto;
     height: max-content;
     gap: var(--space-0-5);
-    position: relative;
+}
+
+.new-note-form .option-wrapper {
+    top: 85vh;
+    max-width: max-content;
+    margin: 0 auto;
+    left: var(--space-2);
+    right: var(--space-2);
 }
 
 .new-note-form .note-title,
