@@ -42,7 +42,7 @@
     Inscribe is a note taking app that makes you efficient and helps in faster and better note taking.
 </p>
 <br />
-Visit <a href="https://inscribe-notes.netlify.app/">bookery</a> and note down your musings, thoughts, information - all in one place!
+Visit <a href="https://inscribe-notes.netlify.app/">inscribe notes</a> and note down your musings, thoughts, information - all in one place!
 
 <br />
 <br />
