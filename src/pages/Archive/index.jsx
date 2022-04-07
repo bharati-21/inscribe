@@ -10,13 +10,15 @@ const Archive = () => {
 		sortBy,
 		notesStateLoading,
 		notesStateError,
+    filterByPriority
 	} = useNotes();
 
 	const filteredAndSortedArchives = getFilteredAndSortedNotes(
 		archives,
 		searchText,
 		filterByLabel,
-		sortBy
+		sortBy,
+    filterByPriority
 	);
 
 	const loadingMessage = (
@@ -32,9 +34,6 @@ const Archive = () => {
 			<p className="error-color text-lg my-1">{notesStateError}</p>
 		</div>
 	);
-
-  const filteredAndSortedArchives = getFilteredAndSortedNotes(archives, searchText, filterByLabel, sortBy); 
-
 
 	return (
 		<section className="section-wrapper flex-col flex-align-center flex-justify-start">

@@ -25,44 +25,15 @@ const Sidebar = () => {
 	const { notesDispatch, showSidebar, handleShowSidebar, labels, notesStateError, notesStateLoading } =
 		useNotes();
 
-	const sidebarSections = [
-		{
-			key: uuid(),
-			icon: <HomeOutlined />,
-			name: "Home",
-			path: "/",
-		},
-		{
-			key: uuid(),
-			icon: <LabelOutlined />,
-			name: "Labels",
-			path: "/labels",
-		},
-		{
-			key: uuid(),
-			icon: <ArchiveOutlined />,
-			name: "Archive",
-			path: "/archive",
-		},
-		{
-			key: uuid(),
-			icon: <DeleteOutlineOutlined />,
-			name: "Trash",
-			path: "trash",
-		},
-		{
-			key: uuid(),
-			icon: <AccountCircleOutlined />,
-			name: "Profile",
-			path: "profile",
-		},
-	];
-
-	const labelMapping = (
-		labels.length > 0 && <ul className="list list-spaced mt-0-5 list-style-none pl-2-5 list-labels flex-col align-center">
-			{labels.map(({ label, id }) => (
-				<li key={id} className="text-reg">{label}</li>
-			))}
+	const labelMapping = labels.length > 0 && (
+		<ul className="list list-spaced mt-0-5 list-style-none pl-2-5 list-labels flex-col align-center">
+			{
+                labels.map(({ label, id }) => (
+                    <li key={id} className="text-reg">
+                        {label}
+                    </li>
+                )
+            )}
 		</ul>
 	);
 

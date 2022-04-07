@@ -1,18 +1,26 @@
 import { v4 as uuid } from "uuid";
 import { notesActions as actionTypes } from "./actions";
+import { notePriorities } from 'components/Notes/note-priorities';
 
 const initialNotesState = {
 	notes: [],
 	archives: [],
 	labels: [],
-    trash: [],
+	trash: [],
 	notesStateLoading: true,
 	notesStateError: null,
 	showNewNoteForm: false,
 	isEditing: null,
 	editingNoteId: -1,
-	sortBy: "",
+    sortBy: {sortByDate: '', sortByPriority: ''},
 	filterByLabel: [],
+	filterByPriority: 
+		notePriorities.map(({ priorityId, priority }) => ({
+			id: priorityId,
+			priority,
+			filtered: false,
+		})),
+	
 };
 
 const notesReducerFunction = (
@@ -34,6 +42,7 @@ const notesReducerFunction = (
 				filterByLabel,
 				sortBy,
         trash,
+        filterByPriority
 			},
 		},
 	}
@@ -91,7 +100,7 @@ const notesReducerFunction = (
 			return {
 				...prevNotesState,
 				archives,
-                trash,
+        trash: (trash || prevNotesState.trash),
 				isEditing,
 				editingNoteId,
 				showNewNoteForm,
@@ -118,8 +127,9 @@ const notesReducerFunction = (
 		case actionTypes.RESET_FILTERS:
 			return {
 				...prevNotesState,
-				sortBy,
+                sortBy,
 				filterByLabel,
+                filterByPriority
 			};
 
     case actionTypes.RESTORE_FROM_TRASH:
@@ -135,6 +145,13 @@ const notesReducerFunction = (
                 ...prevNotesState,
                 trash
             }
+
+        case actionTypes.FILTER_BY_PRIORITY:
+            return {
+                ...prevNotesState,
+                filterByPriority
+            }
+
 		default:
 			throw new Error('Invalid Dispatch action type!');
 	}

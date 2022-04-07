@@ -11,15 +11,14 @@
 .new-note-form {
     max-width: 500px;
     max-height: 90vh;
-    overflow: auto;
-    /* width: 100%; */
+    height: max-content;
     gap: var(--space-0-5);
     position: relative;
 }
 
 .new-note-form .note-title,
 .new-note-form .note-body {
-    border: 2px solid var(--light-gray-color);
+    border: 2px solid rgba(0, 0, 0, 0.15);
     border-radius: 2px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -39,4 +38,18 @@
     position: absolute;
     right: 1.5rem;
     top: 1.5rem;
+}
+
+.new-note-form .note-actions {
+    width: 100%;
+}
+
+.priority-dropdown {
+    outline: none;
+    background-color: inherit;
+    border-radius: var(--br-2);
+    -webkit-border-radius: var(--br-2);
+    -moz-border-radius: var(--br-2);
+    -ms-border-radius: var(--br-2);
+    -o-border-radius: var(--br-2);
 }

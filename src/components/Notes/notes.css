@@ -18,6 +18,15 @@
     width: 100%;
     gap: var(--space-1);
     position: relative;
+    transition: 0.3s all ease-in-out;
+    -webkit-transition: 0.3s all ease-in-out;
+    -moz-transition: 0.3s all ease-in-out;
+    -ms-transition: 0.3s all ease-in-out;
+    -o-transition: 0.3s all ease-in-out;
+}
+
+.note-card:hover {
+    box-shadow: var(--box-shadow);
 }
 
 .notes-container .note-card {
@@ -46,7 +55,7 @@
     -o-border-radius: 2px;
     width: 100%;
     resize: none;
-    border: 2px solid var(--light-theme-bg-color);
+    border: 2px solid rgba(0, 0, 0, 0.15);
 }
 
 .note-card .note-title {
@@ -64,6 +73,8 @@
 
 .note-info {
     width: 100%;
+    flex-wrap: wrap-reverse;
+    gap: var(--space-1);
 }
 
 .note-actions {
@@ -76,4 +87,10 @@
 
 .notes-tag-list .badge {
     position: relative;
+}
+
+@media screen and (max-width: 350px) {
+    .note-info {
+        justify-content: center;
+    }
 }

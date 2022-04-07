@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
 
 import TextareaAutosize from "react-textarea-autosize";
-import { PushPinOutlined, PushPin } from "@mui/icons-material";
+import { Palette } from "@mui/icons-material";
 
 import "./new-note-modal.css";
 import { editArchiveService, editNoteService, postNoteService } from "services";
 import { getCreatedDate } from "utils/";
 import { useAuth, useNotes } from "contexts";
 import { useToastify } from "custom-hook/useToastify";
+import { ColorPalette } from "components";
+import { notePriorities } from '../note-priorities';
 
 const NewNoteModal = () => {
 	const {
@@ -18,30 +20,41 @@ const NewNoteModal = () => {
 		handleShowSidebar,
 		isEditing,
 		editingNoteId,
-        archives
+        archives,
 	} = useNotes();
 	const { authToken } = useAuth();
 
 	const initialEmptyFormState = {
 		noteTitle: "",
 		noteBody: "",
+        createdOn: "",
+        tags: [],
+        noteBackgroundColor: "var(--bg-card-color)",
+        isArchived: false,
+        notePriority: 'None'
 	};
+
+    const initialShowOptions = {
+        showColorPalette: false,
+    };
+
 	const [noteItem, setNoteItem] = useState(initialEmptyFormState);
     const [formDataError, setFormDataError] = useState(null);
+    const [showOptions, setShowOptions] = useState(initialShowOptions);
+    const { showToast } = useToastify();
 
 	useEffect(() => {
-		if (isEditing === 'note')
-			setNoteItem(notes.find((note) => note._id === editingNoteId));
-        if(isEditing === 'archive') 
-            setNoteItem(archives.find((archive) => archive._id === editingNoteId));
+		if (isEditing === 'note') {
+            const noteToBeEdited = notes.find((note) => note._id === editingNoteId);
+			setNoteItem(noteToBeEdited);
+        }
+        if(isEditing === 'archive') {
+            const archiveToBeEdited = archives.find((archive) => archive._id === editingNoteId);
+			setNoteItem(archiveToBeEdited);
+        }
+
 	}, [isEditing]);
 
-	const [pinned, setPinned] = useState(false);
-
-	const { showToast } = useToastify();
-
-	const handlePinnedState = () =>
-		setPinned((prevPinnedState) => !prevPinnedState);
 
 	const handleNoteItemChange = ({ target: { name, value } }) => {
 		return setNoteItem((prevNoteItem) => ({
@@ -54,6 +67,7 @@ const NewNoteModal = () => {
 		if (showSidebar) handleShowSidebar();
 		setNoteItem(initialEmptyFormState);
         setFormDataError(null);
+        setShowOptions(initialShowOptions);
 	};
 
 	const handleCancelNewNote = () => {
@@ -90,6 +104,7 @@ const NewNoteModal = () => {
 			showToast("Edited Note", "info");
 			resetNoteFormInput();
 		} catch (error) {
+            
 			showToast("Failed to edit note. Please try again later.", "error");
 		}
     }
@@ -137,8 +152,8 @@ const NewNoteModal = () => {
 			const {
 				data: { notes },
 			} = await postNoteService(
-				{ ...noteItem, noteCreatedOn, isArchived: false },
-				{ authorization: authToken }
+				{ ...noteItem, noteCreatedOn },
+				{ authorization: authToken, }
 			);
 
 			notesDispatch({
@@ -162,24 +177,29 @@ const NewNoteModal = () => {
 		}
 	};
 
+	const { showColorPalette } = showOptions;
+	const handleChangeOptions = (option) => {
+		switch (option) {
+			case "colorPalette":
+				setShowOptions((prevShowOptions) => ({
+					...initialShowOptions,
+					showColorPalette: !prevShowOptions.showColorPalette,
+				}));
+				break;
+		}
+	};
+
     const { noteTitle, noteBody } = noteItem;
-	const pinIcon = pinned ? <PushPin /> : <PushPinOutlined />;
 	const submitButtonValue = isEditing ? "Edit Note" : "Add Note";
+    const noteCardStyle = { backgroundColor: noteItem.noteBackgroundColor };
 
 	return showNewNoteForm ? (
 		<div className="new-note-container flex-col flex-align-center flex-justify-center p-2">
 			<form
 				onSubmit={handleAddNote}
 				className="new-note-form note-card flex-col flex-align-start flex-justify-between p-1"
+				style={noteCardStyle}
 			>
-				<button
-					type="button"
-					className="btn btn-icon btn-pin"
-					onClick={handlePinnedState}
-					tabIndex="3"
-				>
-					{pinIcon}
-				</button>
 				<input
 					type="text"
 					value={noteTitle}
@@ -187,8 +207,8 @@ const NewNoteModal = () => {
 					className="note-title p-0-5"
 					onChange={handleNoteItemChange}
 					tabIndex="1"
-                    placeholder="Enter Note Title"
-                    autoComplete="off"
+					placeholder="Enter Note Title"
+					autoComplete="off"
 				/>
 				<TextareaAutosize
 					className="note-body p-0-5 multline-textarea"
@@ -196,8 +216,8 @@ const NewNoteModal = () => {
 					name="noteBody"
 					onChange={handleNoteItemChange}
 					tabIndex="2"
-                    placeholder="Enter Note Body"
-                    autoComplete="off"
+					placeholder="Enter Note Body"
+					autoComplete="off"
 				/>
 				<div className="button-container flex-row flex-justify-between flex-align-center mt-1">
 					<input
@@ -214,9 +234,52 @@ const NewNoteModal = () => {
 						tabIndex="5"
 					/>
 				</div>
-                { formDataError && <p className="text-lg error-color mt-1-5 mx-auto">{formDataError}</p> }
+				{formDataError && (
+					<p className="text-lg error-color mt-1-5 mx-auto">
+						{formDataError}
+					</p>
+				)}
+				<div className="note-actions flex-row flex-justify-center flex-align-center flex-wrap">
+					<div className="note-action-wrapper">
+						<button
+							type="button"
+							className="btn btn-icon btn-note-action"
+							onClick={() => handleChangeOptions("colorPalette")}
+						>
+							<span className="icon mui-icon icon-edit">
+								{<Palette />}
+							</span>
+						</button>
+						{showColorPalette && (
+							<ColorPalette
+								handleChangeNoteBackgroundColor={
+									handleNoteItemChange
+								}
+								noteBackgroundColor={
+									noteItem.noteBackgroundColor
+								}
+							/>
+						)}
+					</div>
+					<select
+						name="notePriority"
+						value={noteItem.notePriority}
+						onChange={handleNoteItemChange}
+                        className="priority-dropdown px-0-5 py-0-25 text-sm"
+					>
+						{
+                            notePriorities.map(({ priorityId, priority }) => (
+                                <option
+                                    value={priority}
+                                    key={priorityId}
+                                >
+                                    {priority}
+                                </option>
+                            ))
+                        }
+					</select>
+				</div>
 			</form>
-            
 		</div>
 	) : null;
 };

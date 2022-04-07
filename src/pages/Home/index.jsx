@@ -3,7 +3,7 @@ import { useNotes } from "contexts/";
 import { getFilteredAndSortedNotes } from "utils";
 
 const Home = () => {
-	const { notes, searchText, sortBy, filterByLabel, notesStateLoading, notesStateError } = useNotes();
+	const { notes, searchText, sortBy, filterByLabel, notesStateLoading, notesStateError, filterByPriority } = useNotes();
 
 	const loadingMessage = (
 		<div className="message">
@@ -16,7 +16,7 @@ const Home = () => {
 		</div>
 	);
 
-    const filteredAndSortedNotes = getFilteredAndSortedNotes(notes, searchText, filterByLabel, sortBy); 
+    const filteredAndSortedNotes = getFilteredAndSortedNotes(notes, searchText, filterByLabel, sortBy, filterByPriority); 
 
 	return (
 		<section className="section-wrapper flex-col flex-align-center flex-justify-start">

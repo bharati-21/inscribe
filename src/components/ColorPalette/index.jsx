@@ -1,11 +1,15 @@
 import { v4 as uuid } from "uuid";
 import './color-palette.css';
 
-const ColorPalette = () => {
+const ColorPalette = ({ handleChangeNoteBackgroundColor, noteBackgroundColor }) => {
 	const colors = [
+        {
+            id: uuid(),
+            value: "#ffffff"
+        },
 		{
 			id: uuid(),
-			value: "#f28b82",
+			value: "#fcd2c5",
 		},
 		{
 			id: uuid(),
@@ -48,8 +52,11 @@ const ColorPalette = () => {
 	const colorMapping = colors.map(({ id, value }) => (
 		<button
 			key={id}
-			className={`color-sphere color-${value} btn btn-icon`}
+			className={`color-sphere color-${value} btn btn-icon ${noteBackgroundColor === value ? 'color-sphere  selected-color' : 'color-sphere'}`}
 			style={{ backgroundColor: value }}
+            value={value}
+            name="noteBackgroundColor"
+            onClick={handleChangeNoteBackgroundColor}
 		></button>
 	));
 
