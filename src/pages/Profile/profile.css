@@ -1,0 +1,9 @@
+.profile-container {
+    border: 1px solid #ccc;
+    max-width: 500px;
+}
+
+.notes-stats li {
+    font-size: var(--text);
+}
+
