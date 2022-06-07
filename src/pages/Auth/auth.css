@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+.auth-main .text-message {
+    display: block;
+}
+
 .auth-container.logout-container .auth-head {
     line-height: 0;
 }
@@ -112,6 +116,7 @@
 .link-disabled {
     pointer-events: none;
 }
+
 
 @media screen and (max-width: 480px) {
     .auth-container.logout-container .auth-head {
