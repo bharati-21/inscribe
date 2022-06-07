@@ -90,18 +90,22 @@ aside.sidebar {
 
 @media screen and (max-width: 768px) {
     .mobile-sidebar {
+        position: fixed;
+        top: 0;
+        width: 300px;
+        height: 100vh;
+        left: 0;
         display: flex;
+        z-index: 2;
     }
 
     .mobile-sidebar-wrapper aside.sidebar {
         display: flex;
-        position: fixed;
+        position: sticky;
         top: 0;
-        width: 300px;
-        left: 0;
-        height: 100vh;
+        height: 100%;
+        width: 100%;
         background-color: var(--bg-card-color);
-        z-index: 2;
         justify-content: space-between;
         padding: var(--space-5) var(--space-2);
     }
@@ -116,7 +120,7 @@ aside.sidebar {
 } 
 
 @media screen and (max-width: 300px) {
-    .mobile-sidebar-wrapper aside.sidebar {
+    .mobile-sidebar {
         width: 200px;
     }
 }

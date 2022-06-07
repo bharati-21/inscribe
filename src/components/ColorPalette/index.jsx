@@ -1,12 +1,18 @@
+import { useOutsideClick } from "custom-hook";
+import { useRef } from "react";
 import { v4 as uuid } from "uuid";
-import './color-palette.css';
+import "./color-palette.css";
 
-const ColorPalette = ({ handleChangeNoteBackgroundColor, noteBackgroundColor }) => {
+const ColorPalette = ({
+	handleChangeNoteBackgroundColor,
+	noteBackgroundColor,
+	setShowOptions,
+}) => {
 	const colors = [
-        {
-            id: uuid(),
-            value: "#ffffff"
-        },
+		{
+			id: uuid(),
+			value: "#ffffff",
+		},
 		{
 			id: uuid(),
 			value: "#fcd2c5",
@@ -49,20 +55,34 @@ const ColorPalette = ({ handleChangeNoteBackgroundColor, noteBackgroundColor }) 
 		},
 	];
 
+	const colorPaletteRef = useRef(null);
+	useOutsideClick(colorPaletteRef, () => {
+		setShowOptions((prevShowOptions) => ({
+			...prevShowOptions,
+			showColorPalette: false,
+		}));
+	});
+
 	const colorMapping = colors.map(({ id, value }) => (
 		<button
 			key={id}
-			className={`color-sphere color-${value} btn btn-icon ${noteBackgroundColor === value ? 'color-sphere  selected-color' : 'color-sphere'}`}
+			className={`color-sphere color-${value} btn btn-icon ${
+				noteBackgroundColor === value
+					? "color-sphere  selected-color"
+					: "color-sphere"
+			}`}
 			style={{ backgroundColor: value }}
-            value={value}
-            name="noteBackgroundColor"
-            onClick={handleChangeNoteBackgroundColor}
+			value={value}
+			name="noteBackgroundColor"
+			onClick={handleChangeNoteBackgroundColor}
 		></button>
 	));
 
-	return <div className="option-wrapper flex-row flex-wrap flex-align-center flex-justify-center">
-        { colorMapping }
-    </div>;
+	return (
+		<div className="option-wrapper flex-row flex-wrap flex-align-center flex-justify-center">
+			{colorMapping}
+		</div>
+	);
 };
 
 export { ColorPalette };
