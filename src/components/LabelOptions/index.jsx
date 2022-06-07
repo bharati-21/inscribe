@@ -1,14 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { v4 as uuid } from "uuid";
 
 import { useAuth, useNotes } from "contexts";
 import "./label-options.css";
 import { editArchiveService, editNoteService } from "services/";
-import { useToastify } from "custom-hook/useToastify";
+import { useOutsideClick, useToastify } from "custom-hook";
 
-const LabelOptions = ({ note }) => {
+const LabelOptions = ({ note, setShowOptions }) => {
 	const { labels, notesDispatch } = useNotes();
 	const { authToken } = useAuth();
+
+	const [isOngoingCall, setIsOngoingCall] = useState(false);
 
 	const { showToast } = useToastify();
 
@@ -46,6 +48,7 @@ const LabelOptions = ({ note }) => {
 	};
 
 	const postEditedNoteAndDispatch = async (updatedNote) => {
+		setIsOngoingCall(true);
 		try {
 			if (updatedNote.isArchived) {
 				const {
@@ -85,10 +88,13 @@ const LabelOptions = ({ note }) => {
 				"Error occured while updating labels. Try again later.",
 				"error"
 			);
+		} finally {
+			setIsOngoingCall(false);
 		}
 	};
 
-	const handleChangeNoteTags = (id) => {
+	const handleChangeNoteTags = (e, id) => {
+		e.stopPropagation();
 		setLabelOptions((prevLabelOptions) =>
 			prevLabelOptions.map((prevLabelOption) =>
 				prevLabelOption.id === id
@@ -109,7 +115,12 @@ const LabelOptions = ({ note }) => {
 		postEditedNoteAndDispatch(updatedNote);
 	};
 
-	const handleAddNewLabel = ({ keyCode, target: { value } }) => {
+	const handleAddNewLabel = (event) => {
+		const {
+			keyCode,
+			target: { value },
+		} = event;
+		event.stopPropagation();
 		if (keyCode === 13 && value.trim() !== "") {
 			const labelId = uuid();
 
@@ -134,16 +145,29 @@ const LabelOptions = ({ note }) => {
 	};
 
 	const handleNewLabelChange = (e) => {
+		e.stopPropagation();
 		setNewLabel(e.target.value);
 	};
 
+	const labelOptionsRef = useRef(null);
+	useOutsideClick(labelOptionsRef, () => {
+		setShowOptions((prevShowOptions) => ({
+			...prevShowOptions,
+			showLabelOptions: false,
+		}));
+	});
+
 	return (
-		<div className="option-wrapper flex-col flex-align-center flex-justify-center">
+		<div
+			className="option-wrapper flex-col flex-align-center flex-justify-center"
+			ref={labelOptionsRef}
+		>
 			<div className="label-input-wrapper">
 				<input
 					type="text"
 					className="label-input text-lg"
 					value={newLabel}
+					disabled={isOngoingCall}
 					onChange={handleNewLabelChange}
 					placeholder="Type and press enter to create a new label"
 					onKeyDown={handleAddNewLabel}
@@ -161,7 +185,8 @@ const LabelOptions = ({ note }) => {
 								type="checkbox"
 								className="label-checkbox"
 								value={label}
-								onChange={() => handleChangeNoteTags(id)}
+								disabled={isOngoingCall}
+								onChange={(e) => handleChangeNoteTags(e, id)}
 								checked={checked}
 							/>
 							{label}
