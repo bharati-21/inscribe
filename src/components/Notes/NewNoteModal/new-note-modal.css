@@ -62,3 +62,8 @@
     -ms-border-radius: var(--br-2);
     -o-border-radius: var(--br-2);
 }
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}

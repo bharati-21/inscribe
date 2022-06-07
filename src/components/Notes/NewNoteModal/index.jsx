@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import TextareaAutosize from "react-textarea-autosize";
-import { RichTextEditor } from '../RichTextEditor'
+import { RichTextEditor } from "../RichTextEditor";
 import { Palette } from "@mui/icons-material";
 
 import "./new-note-modal.css";
 import { editArchiveService, editNoteService, postNoteService } from "services";
 import { getCreatedDate } from "utils/";
 import { useAuth, useNotes } from "contexts";
-import { useToastify } from "custom-hook/useToastify";
+import { useOutsideClick, useToastify } from "custom-hook";
 import { ColorPalette } from "components";
-import { notePriorities } from '../note-priorities';
+import { notePriorities } from "../note-priorities";
 
 const NewNoteModal = () => {
 	const {
@@ -21,58 +21,64 @@ const NewNoteModal = () => {
 		handleShowSidebar,
 		isEditing,
 		editingNoteId,
-        archives,
+		archives,
 	} = useNotes();
 	const { authToken } = useAuth();
 
 	const initialEmptyFormState = {
 		noteTitle: "",
 		noteBody: "",
-        createdOn: "",
-        tags: [],
-        noteBackgroundColor: "var(--bg-card-color)",
-        isArchived: false,
-        notePriority: 'None'
+		createdOn: "",
+		tags: [],
+		noteBackgroundColor: "var(--bg-card-color)",
+		isArchived: false,
+		notePriority: "None",
 	};
 
-    const initialShowOptions = {
-        showColorPalette: false,
-    };
+	const initialShowOptions = {
+		showColorPalette: false,
+	};
 
 	const [noteItem, setNoteItem] = useState(initialEmptyFormState);
-    const [formDataError, setFormDataError] = useState(null);
-    const [showOptions, setShowOptions] = useState(initialShowOptions);
-    const { showToast } = useToastify();
+	const [formDataError, setFormDataError] = useState(null);
+	const [showOptions, setShowOptions] = useState(initialShowOptions);
+	const { showToast } = useToastify();
 
 	useEffect(() => {
-		if (isEditing === 'note') {
-            const noteToBeEdited = notes.find((note) => note._id === editingNoteId);
+		if (isEditing === "note") {
+			const noteToBeEdited = notes.find(
+				(note) => note._id === editingNoteId
+			);
 			setNoteItem(noteToBeEdited);
-        }
-        if(isEditing === 'archive') {
-            const archiveToBeEdited = archives.find((archive) => archive._id === editingNoteId);
+		}
+		if (isEditing === "archive") {
+			const archiveToBeEdited = archives.find(
+				(archive) => archive._id === editingNoteId
+			);
 			setNoteItem(archiveToBeEdited);
-        }
-
+		}
 	}, [isEditing]);
 
-
-	const handleNoteItemChange = ({ target: { name, value } }) => {
+	const handleNoteItemChange = (event) => {
+		event.stopPropagation();
+		const {
+			target: { name, value },
+		} = event;
 		return setNoteItem((prevNoteItem) => ({
 			...prevNoteItem,
 			[name]: value,
 		}));
 	};
 
-    const handleNoteBodyChange = (value) => {
-		setNoteItem(prevNoteItem => ({ ...prevNoteItem, noteBody: value }));
+	const handleNoteBodyChange = (value) => {
+		setNoteItem((prevNoteItem) => ({ ...prevNoteItem, noteBody: value }));
 	};
 
 	const resetNoteFormInput = () => {
 		if (showSidebar) handleShowSidebar();
 		setNoteItem(initialEmptyFormState);
-        setFormDataError(null);
-        setShowOptions(initialShowOptions);
+		setFormDataError(null);
+		setShowOptions(initialShowOptions);
 	};
 
 	const handleCancelNewNote = () => {
@@ -89,38 +95,37 @@ const NewNoteModal = () => {
 		});
 	};
 
-    const handleEditArchived = async () => {
-        try {
+	const handleEditArchived = async () => {
+		try {
 			const {
 				data: { archives },
 			} = await editArchiveService(noteItem, authToken);
 
-            notesDispatch({
+			notesDispatch({
 				action: {
 					type: "EDIT_ARCHIVES",
 					payload: {
 						archives,
-                        showNewNoteForm: false,
-                        isEditing: null,
-                        editingNoteId: -1
+						showNewNoteForm: false,
+						isEditing: null,
+						editingNoteId: -1,
 					},
 				},
 			});
 			showToast("Edited Note", "info");
 			resetNoteFormInput();
 		} catch (error) {
-            
 			showToast("Failed to edit note. Please try again later.", "error");
 		}
-    }
+	};
 
 	const handleEditNote = async () => {
 		try {
 			const {
 				data: { notes },
-			} =  await editNoteService(noteItem, authToken);
+			} = await editNoteService(noteItem, authToken);
 
-            notesDispatch({
+			notesDispatch({
 				action: {
 					type: "SET_NOTES",
 					payload: {
@@ -140,16 +145,16 @@ const NewNoteModal = () => {
 
 	const handleAddNote = async (event) => {
 		event.preventDefault();
-        if(noteItem.noteTitle === '' || noteItem.noteBody === '') {
-            setFormDataError("Your note title and body cannot be empty!")
-            return;
-        }
-        setFormDataError(null);
-    
+		if (noteItem.noteTitle === "" || noteItem.noteBody === "") {
+			setFormDataError("Your note title and body cannot be empty!");
+			return;
+		}
+		setFormDataError(null);
+
 		if (isEditing) {
-            if(noteItem.isArchived) {
-                return handleEditArchived();
-            }
+			if (noteItem.isArchived) {
+				return handleEditArchived();
+			}
 			return handleEditNote();
 		}
 		try {
@@ -158,7 +163,7 @@ const NewNoteModal = () => {
 				data: { notes },
 			} = await postNoteService(
 				{ ...noteItem, noteCreatedOn },
-				{ authorization: authToken, }
+				{ authorization: authToken }
 			);
 
 			notesDispatch({
@@ -194,9 +199,27 @@ const NewNoteModal = () => {
 		}
 	};
 
-    const { noteTitle, noteBody } = noteItem;
+	const { noteTitle, noteBody } = noteItem;
 	const submitButtonValue = isEditing ? "Edit Note" : "Add Note";
-    const noteCardStyle = { backgroundColor: noteItem.noteBackgroundColor };
+	const noteCardStyle = { backgroundColor: noteItem.noteBackgroundColor };
+
+	const newNoteformRef = useRef(null);
+
+	useOutsideClick(newNoteformRef, () => {
+		setNoteItem(initialEmptyFormState);
+		setShowOptions(initialShowOptions);
+		setFormDataError(null);
+		notesDispatch({
+			action: {
+				type: "SHOW_NEW_NOTE_FORM",
+				payload: {
+					showNewNoteForm: false,
+					isEditing: null,
+					editingNoteId: -1,
+				},
+			},
+		});
+	});
 
 	return showNewNoteForm ? (
 		<div className="new-note-container flex-col flex-align-center flex-justify-center p-2">
@@ -204,6 +227,7 @@ const NewNoteModal = () => {
 				onSubmit={handleAddNote}
 				className="new-note-form note-card flex-col flex-align-start flex-justify-between p-1"
 				style={noteCardStyle}
+				ref={newNoteformRef}
 			>
 				<input
 					type="text"
@@ -215,13 +239,13 @@ const NewNoteModal = () => {
 					placeholder="Enter Note Title"
 					autoComplete="off"
 				/>
-                <div className="note-body p-0-5 multline-text-area">
-                    <RichTextEditor  
-                        noteBody={noteBody}
-                        handleNoteBodyChange={handleNoteBodyChange}
-                    />
-                </div>
-				
+				<div className="note-body p-0-5 multline-text-area">
+					<RichTextEditor
+						noteBody={noteBody}
+						handleNoteBodyChange={handleNoteBodyChange}
+					/>
+				</div>
+
 				<div className="button-container flex-row flex-justify-between flex-align-center mt-1">
 					<input
 						type="button"
@@ -261,6 +285,7 @@ const NewNoteModal = () => {
 								noteBackgroundColor={
 									noteItem.noteBackgroundColor
 								}
+								setShowOptions={setShowOptions}
 							/>
 						)}
 					</div>
@@ -268,18 +293,13 @@ const NewNoteModal = () => {
 						name="notePriority"
 						value={noteItem.notePriority}
 						onChange={handleNoteItemChange}
-                        className="priority-dropdown px-0-5 py-0-25 text-sm"
+						className="priority-dropdown px-0-5 py-0-25 text-sm"
 					>
-						{
-                            notePriorities.map(({ priorityId, priority }) => (
-                                <option
-                                    value={priority}
-                                    key={priorityId}
-                                >
-                                    {priority}
-                                </option>
-                            ))
-                        }
+						{notePriorities.map(({ priorityId, priority }) => (
+							<option value={priority} key={priorityId}>
+								{priority}
+							</option>
+						))}
 					</select>
 				</div>
 			</form>
