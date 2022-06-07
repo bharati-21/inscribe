@@ -79,7 +79,10 @@ const ColorPalette = ({
 	));
 
 	return (
-		<div className="option-wrapper flex-row flex-wrap flex-align-center flex-justify-center">
+		<div
+			className="option-wrapper flex-row flex-wrap flex-align-center flex-justify-center"
+			ref={colorPaletteRef}
+		>
 			{colorMapping}
 		</div>
 	);
