@@ -59,7 +59,7 @@ const NoteItem = ({ note }) => {
 
 	const { showToast } = useToastify();
 
-	const itemInTrash = trash.find((note) => note._id === _id);
+	const itemInTrash = trash?.find((note) => note._id === _id);
 
 	const handleChangeOptions = (option) => {
 		switch (option) {
@@ -374,9 +374,9 @@ const NoteItem = ({ note }) => {
 
 	const pinIcon = pinned ? <PushPin /> : <PushPinOutlined />;
 	const archiveIcon = isArchived ? <Unarchive /> : <Archive />;
-	const mappedTags = tags.length > 0 && (
+	const mappedTags = tags?.length > 0 && (
 		<div className="notes-tag-list flex-row flex-align-center flex-justify-start flex-wrap">
-			{tags.map(({ label, id }) => (
+			{tags?.map(({ label, id }) => (
 				<span
 					className="badge badge-primary py-0-25 px-0-5 text-sm"
 					key={id}
@@ -517,7 +517,7 @@ const NoteItem = ({ note }) => {
 							className="priority-dropdown px-0-5 py-0-25 text-sm"
 							disabled={isOngoingCall}
 						>
-							{notePriorities.map(({ priorityId, priority }) => (
+							{notePriorities?.map(({ priorityId, priority }) => (
 								<option value={priority} key={priorityId}>
 									{priority}
 								</option>
