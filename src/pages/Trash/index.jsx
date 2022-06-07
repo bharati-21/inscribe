@@ -1,8 +1,16 @@
 import { NotesList } from "components";
 import { useNotes } from "contexts/";
+import { useDocumentTitle } from "custom-hook";
+import { useEffect } from "react";
 
 const Trash = () => {
 	const { trash, notesStateLoading, notesStateError } = useNotes();
+
+	const setDocumentTitle = useDocumentTitle();
+
+	useEffect(() => {
+		setDocumentTitle("Inscribe | Trash");
+	}, []);
 
 	const loadingMessage = (
 		<div className="message">
@@ -20,24 +28,21 @@ const Trash = () => {
 
 	return (
 		<section className="section-wrapper flex-col flex-align-center flex-justify-start">
-			{
-                notesStateLoading ? (
-                    loadingMessage
-                ) : notesStateError ? (
-                    errorMessage
-                ) : (
-                    <div className="notes-list-wrapper">
-                        {
-                            trash.length ? 
-                                <NotesList notes={trash} />
-                            :
-                                <p className="text-lg text-center">
-                                    You don't have any notes in trash!
-                                </p>
-                        }
-                    </div>
-                )
-            }
+			{notesStateLoading ? (
+				loadingMessage
+			) : notesStateError ? (
+				errorMessage
+			) : (
+				<div className="notes-list-wrapper">
+					{trash?.length ? (
+						<NotesList notes={trash} />
+					) : (
+						<p className="text-lg text-center">
+							You don't have any notes in trash!
+						</p>
+					)}
+				</div>
+			)}
 		</section>
 	);
 };
