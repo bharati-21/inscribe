@@ -8,11 +8,13 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import "../auth.css";
 import { loginService } from "services/";
 import { useAuth } from "contexts/";
+import { useDocumentTitle } from "custom-hook";
 
 const Login = () => {
 	const initialFormData = {
 		email: "",
 		password: "",
+		rememberMe: false,
 	};
 
 	const [formData, setFormData] = useState(initialFormData);
@@ -22,15 +24,35 @@ const Login = () => {
 	const location = useLocation();
 
 	const { authError, authLoading, isAuth, authDispatch } = useAuth();
+	const setDocumentTitle = useDocumentTitle();
 
 	useEffect(() => {
+		setDocumentTitle("Inscribe | Login");
 		const { state } = location;
-		!authLoading && isAuth && navigate(state?.from ? state.from : "/");
+		!authLoading &&
+			isAuth &&
+			navigate(state?.from ?? -1, { replace: true });
+		return () => {
+			if (authError) {
+				authDispatch({
+					action: {
+						type: "SET_AUTH_LOADER_ERROR",
+						payload: {
+							authLoading: false,
+							authError: "",
+						},
+					},
+				});
+			}
+		};
 	}, []);
 
 	const handleFormDataChange = (event) => {
-		const { name, value } = event.target;
-		setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+		const { name, value, checked } = event.target;
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			[name]: name === "rememberMe" ? checked : value,
+		}));
 	};
 
 	const showPasswordIcon = showPassword ? (
@@ -41,6 +63,16 @@ const Login = () => {
 
 	const handleFormSubmit = async (event) => {
 		event.preventDefault();
+
+		authDispatch({
+			action: {
+				type: "SET_AUTH_LOADER_ERROR",
+				payload: {
+					authLoading: true,
+					authError: null,
+				},
+			},
+		});
 
 		try {
 			const { data } = await loginService(formData);
@@ -62,40 +94,35 @@ const Login = () => {
 				},
 			});
 
-			localStorage.setItem("inscribe-token", encodedToken);
-			localStorage.setItem("inscribe-user", JSON.stringify(otherUserDetails));
+			if (rememberMe) {
+				localStorage.setItem("inscribe-token", encodedToken);
+				localStorage.setItem(
+					"inscribe-user",
+					JSON.stringify(otherUserDetails)
+				);
+			}
 
-			const timeoutId = setTimeout(() => {
-				setFormData(initialFormData);
+			setFormData(initialFormData);
 
+			navigate(location?.state?.from ?? -1, { replace: true });
+		} catch (error) {
+			if (error.message.includes(404)) {
 				authDispatch({
 					action: {
-						type: "INIT_AUTH",
+						type: "SET_AUTH_LOADER_ERROR",
 						payload: {
-							isAuth: true,
-							authToken: encodedToken,
-							authUser: { ...otherUserDetails },
 							authLoading: false,
-							authError: null,
+							authError: "Login failed. Email not found!",
 						},
 					},
 				});
+				return;
+			}
 
-				location.state?.from
-					? navigate(location.state.from)
-					: navigate("/");
-			}, 3000);
-
-		} catch (error) {
-			localStorage.removeItem("inscribe-token");
-			localStorage.removeItem("inscribe-user");
 			authDispatch({
 				action: {
-					type: "INIT_AUTH",
+					type: "SET_AUTH_LOADER_ERROR",
 					payload: {
-						authUser: {},
-						authToken: "",
-						isAuth: false,
 						authLoading: false,
 						authError:
 							"Login failed. Please try again after sometime.",
@@ -105,22 +132,23 @@ const Login = () => {
 		}
 	};
 
-	const { email, password } = formData;
+	const { email, password, rememberMe } = formData;
 	const handleChangePasswordVisibility = () =>
 		setShowPassword((prevShowPassword) => !prevShowPassword);
 
 	const handleLoginWithTestCredentials = (event) => {
 		setFormData({
-			email: "adarshbalika@gmail.com",
-			password: "adarshBalika123",
+			email: process.env.REACT_APP_GUEST_EMAIL,
+			password: process.env.REACT_APP_GUEST_PASSWORD,
+			rememberMe: true,
 		});
 	};
 
 	const btnDisabled = authLoading && "btn-disabled";
 	const linkDisabled = authLoading && "link-disabled";
-  
+
 	return (
-		<section className="section-wrapper auth-main flex-col flex-align-center flex-justify-start mx-auto p-3">
+		<section className="section-wrapper auth-main flex-col flex-align-center flex-justify-center mx-auto p-3">
 			<div className="auth-wrapper">
 				<section className="auth-container login-container mx-auto mb-1 px-1-5">
 					<h3 className="text-center text-uppercase auth-head mb-1">
@@ -195,12 +223,11 @@ const Login = () => {
 									className="input-checkbox text-reg"
 									id="checkbox-remember"
 									disabled={authLoading}
+									value={rememberMe}
+									onChange={handleFormDataChange}
 								/>
 								Remember me
 							</label>
-							<div className="btn btn-link btn-primary btn-forgot-psd text-sm">
-								Forgot password?
-							</div>
 						</div>
 						<div className="auth-button-container mt-1 flex-col flex-align-center">
 							<div className="login-button-container flex-col flex-align-center flex-justify-center">
@@ -233,7 +260,9 @@ const Login = () => {
 			</div>
 			{authError && <p className="error-color text-lg">{authError}</p>}
 			{authLoading && (
-				<p className="success-color text-lg">Logging in. Please wait...</p>
+				<p className="success-color text-lg">
+					Logging in. Please wait...
+				</p>
 			)}
 		</section>
 	);
