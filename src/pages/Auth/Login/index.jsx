@@ -223,7 +223,7 @@ const Login = () => {
 									className="input-checkbox text-reg"
 									id="checkbox-remember"
 									disabled={authLoading}
-									value={rememberMe}
+									checked={rememberMe}
 									onChange={handleFormDataChange}
 								/>
 								Remember me
