@@ -1,6 +1,6 @@
 import { v4 as uuid } from "uuid";
 import { notesActions as actionTypes } from "./actions";
-import { notePriorities } from 'components/Notes/note-priorities';
+import { notePriorities } from "components/Notes/note-priorities";
 
 const initialNotesState = {
 	notes: [],
@@ -12,53 +12,48 @@ const initialNotesState = {
 	showNewNoteForm: false,
 	isEditing: null,
 	editingNoteId: -1,
-    sortBy: {sortByDate: '', sortByPriority: ''},
+	sortBy: { sortByDate: "", sortByPriority: "" },
 	filterByLabel: [],
-	filterByPriority: 
-		notePriorities.map(({ priorityId, priority }) => ({
-			id: priorityId,
-			priority,
-			filtered: false,
-		})),
-	
+	filterByPriority: notePriorities.map(({ priorityId, priority }) => ({
+		id: priorityId,
+		priority,
+		filtered: false,
+	})),
 };
 
 const notesReducerFunction = (
 	prevNotesState,
-	{
-		action: {
-			type,
-			payload: {
-				notes,
-				notesStateLoading,
-				notesStateError,
-				showNewNoteForm,
-				isEditing,
-				editingNoteId,
-				archives,
-				labels,
-				label,
-				labelId,
-				filterByLabel,
-				sortBy,
-        trash,
-        filterByPriority
-			},
-		},
-	}
+	{ action: { type, payload } }
 ) => {
+	const {
+		notes,
+		notesStateLoading,
+		notesStateError,
+		showNewNoteForm,
+		isEditing,
+		editingNoteId,
+		archives,
+		labels,
+		label,
+		labelId,
+		filterByLabel,
+		sortBy,
+		trash,
+		filterByPriority,
+	} = payload;
+
 	switch (type) {
 		case actionTypes.SET_NOTES:
 			return {
 				...prevNotesState,
 				notes,
-                trash: trash || prevNotesState.trash,
+				trash: trash || prevNotesState.trash,
 				showNewNoteForm,
 				isEditing,
 				editingNoteId,
 			};
 
-		case actionTypes.INIT_NOTES_STATE_SUCCESS:
+		case actionTypes.INIT_NOTES:
 			return {
 				...prevNotesState,
 				notes,
@@ -69,15 +64,12 @@ const notesReducerFunction = (
 				isEditing,
 				editingNoteId,
 				labels,
-                trash,
+				trash,
 			};
 
-		case actionTypes.INIT_NOTES_STATE_ERROR:
+		case actionTypes.SET_NOTES_LOADER_ERROR:
 			return {
-				...initialNotesState,
-				showNewNoteForm,
-				isEditing,
-				editingNoteId,
+				...prevNotesState,
 				notesStateLoading,
 				notesStateError,
 			};
@@ -100,7 +92,7 @@ const notesReducerFunction = (
 			return {
 				...prevNotesState,
 				archives,
-        trash: (trash || prevNotesState.trash),
+				trash: trash || prevNotesState.trash,
 				isEditing,
 				editingNoteId,
 				showNewNoteForm,
@@ -127,33 +119,33 @@ const notesReducerFunction = (
 		case actionTypes.RESET_FILTERS:
 			return {
 				...prevNotesState,
-                sortBy,
+				sortBy,
 				filterByLabel,
-                filterByPriority
+				filterByPriority,
 			};
 
-    case actionTypes.RESTORE_FROM_TRASH:
-            return {
-                ...prevNotesState,
-                notes,
-                archives,
-                trash
-            }
-        
-        case actionTypes.SET_TRASH:
-            return {
-                ...prevNotesState,
-                trash
-            }
+		case actionTypes.RESTORE_FROM_TRASH:
+			return {
+				...prevNotesState,
+				notes,
+				archives,
+				trash,
+			};
 
-        case actionTypes.FILTER_BY_PRIORITY:
-            return {
-                ...prevNotesState,
-                filterByPriority
-            }
+		case actionTypes.SET_TRASH:
+			return {
+				...prevNotesState,
+				trash,
+			};
+
+		case actionTypes.FILTER_BY_PRIORITY:
+			return {
+				...prevNotesState,
+				filterByPriority,
+			};
 
 		default:
-			throw new Error('Invalid Dispatch action type!');
+			throw new Error("Invalid Dispatch action type!");
 	}
 };
 

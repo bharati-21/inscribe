@@ -7,14 +7,18 @@ import {
 } from "react";
 import { initialNotesState, notesReducerFunction } from "reducers/";
 import { useAuth } from "./";
-import { getArchivedNotesService, getNotesService, getTrashedNotesService } from "services/";
-import { useToastify } from "custom-hook/useToastify";
+import {
+	getArchivedNotesService,
+	getNotesService,
+	getTrashedNotesService,
+} from "services/";
+import { useToastify } from "custom-hook";
 
 const NotesContext = createContext(initialNotesState);
 const { Provider } = NotesContext;
 
 const NotesProvider = ({ children }) => {
-	const { isAuth } = useAuth();
+	const { isAuth, authToken } = useAuth();
 	const { showToast } = useToastify();
 	const [searchText, setSearchText] = useState("");
 
@@ -26,11 +30,13 @@ const NotesProvider = ({ children }) => {
 			const {
 				data: { archives },
 			} = await getArchivedNotesService(authToken);
-            const { data: { trash } } = await getTrashedNotesService(authToken);
+			const {
+				data: { trash },
+			} = await getTrashedNotesService(authToken);
 
 			notesDispatch({
 				action: {
-					type: "INIT_NOTES_STATE_SUCCESS",
+					type: "INIT_NOTES",
 					payload: {
 						notes,
 						archives,
@@ -40,18 +46,15 @@ const NotesProvider = ({ children }) => {
 						isEditing: null,
 						editingNoteId: -1,
 						labels: [],
-                        trash,
+						trash,
 					},
 				},
 			});
 		} catch (error) {
 			notesDispatch({
 				action: {
-					type: "INIT_NOTES_STATE_ERROR",
+					type: "SET_NOTES_LOADER_ERROR",
 					payload: {
-						showNewNoteForm: false,
-						isEditing: null,
-						editingNoteId: -1,
 						notesStateLoading: false,
 						notesStateError:
 							"Couldn't retrieve notes. Try again later.",
@@ -63,7 +66,6 @@ const NotesProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
-		const authToken = localStorage.getItem("inscribe-token");
 		if (authToken || isAuth) {
 			fetchNotes(authToken);
 		}
@@ -83,7 +85,10 @@ const NotesProvider = ({ children }) => {
 		});
 
 		notesDispatch({
-			action: { type: "FILTER_BY_LABELS", payload: { filterByLabel: newFilterByLabels } }
+			action: {
+				type: "FILTER_BY_LABELS",
+				payload: { filterByLabel: newFilterByLabels },
+			},
 		});
 	}, [notesState.labels]);
 
@@ -100,6 +105,7 @@ const NotesProvider = ({ children }) => {
 				...notesState,
 				showSidebar,
 				handleShowSidebar,
+				setShowSidebar,
 				notesDispatch,
 				searchText,
 				handleChangeSearchText,
