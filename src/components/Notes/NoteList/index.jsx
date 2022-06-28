@@ -6,7 +6,7 @@ const NotesList = ({ notes }) => {
 
 	return (
 		<article className="notes-container flex-col flex-align-center flex-justify-start mx-auto">
-			<p className="text-left">Number of notes: {numNotes}</p>
+			<p className="text-left num-notes">Number of notes: {numNotes}</p>
 			{notes.map((note) => (
 				<NoteItem key={note._id} note={note} />
 			))}

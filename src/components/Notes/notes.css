@@ -98,6 +98,10 @@
 	color: rgb(0, 0, 237);
 }
 
+.num-notes {
+    width: 100%;
+}
+
 @media screen and (max-width: 350px) {
 	.note-info {
 		justify-content: center;

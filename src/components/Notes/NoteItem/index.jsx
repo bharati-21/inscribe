@@ -420,7 +420,7 @@ const NoteItem = ({ note }) => {
 
 			<div className="note-info flex-row flex-align-center flex-justify-between flex-wrap">
 				<div className="note-timestamp text-sm secondary-color">
-					{noteCreatedOn}
+					{(new Date(noteCreatedOn)).toLocaleString()}
 				</div>
 				{itemInTrash
 					? isArchived && (
