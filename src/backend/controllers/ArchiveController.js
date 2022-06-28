@@ -87,11 +87,15 @@ export const deleteFromArchivesHandler = function (schema, request) {
 		);
 	}
 	const { noteId } = request.params;
-    const noteToBeDeleted = user.archives.find(note => note._id === noteId);
-    user.trash.push({ ...noteToBeDeleted });
+	const noteToBeDeleted = user.archives.find((note) => note._id === noteId);
+	user.trash.push({ ...noteToBeDeleted });
 	user.archives = user.archives.filter((note) => note._id !== noteId);
 	this.db.users.update({ _id: user._id }, user);
-	return new Response(200, {}, { archives: user.archives, trash: user.trash });
+	return new Response(
+		200,
+		{},
+		{ archives: user.archives, trash: user.trash }
+	);
 };
 
 /**

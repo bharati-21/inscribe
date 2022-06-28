@@ -1,7 +1,7 @@
 import { Logout, Close, Add } from "@mui/icons-material/";
 
 import { v4 as uuid } from "uuid";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import "./sidebar.css";
 import { sidebarSections } from "./sidebar-sections";
@@ -34,15 +34,30 @@ const Sidebar = () => {
 		</ul>
 	);
 
+	const activeStyle = {
+		border: "0.105rem solid var(--primary-color)",
+		borderRadius: "var(--br-2)",
+	};
+
+	const inactiveStyle = {
+		border: "none",
+	};
+
 	const mappedSections = sidebarSections.map(({ key, icon, name, path }) => {
 		return (
 			<h6 key={key} className="aside-link-wrapper">
-				<Link to={path} className="btn btn-link">
+				<NavLink
+					to={path}
+					style={({ isActive }) =>
+						isActive ? activeStyle : inactiveStyle
+					}
+					className="btn btn-link p-0-25"
+				>
 					<span className="icon mui-icon aside-section-icon">
 						{icon}
 					</span>
 					{name}
-				</Link>
+				</NavLink>
 				{name === "Labels" && labelMapping}
 			</h6>
 		);

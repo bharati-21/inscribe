@@ -1,7 +1,5 @@
 const { useState } = require("react");
 import {
-	PushPinOutlined,
-	PushPin,
 	Edit,
 	Archive,
 	Delete,
@@ -48,8 +46,6 @@ const NoteItem = ({ note }) => {
 		showColorPalette: false,
 		showLabelOptions: false,
 	});
-
-	const [pinned, setPinned] = useState(false);
 
 	const { showColorPalette, showLabelOptions } = showOptions;
 	const [isOngoingCall, setIsOngoingCall] = useState(false);
@@ -134,7 +130,6 @@ const NoteItem = ({ note }) => {
 				"Could note delete note. Try again after sometime!",
 				"success"
 			);
-		} finally {
 			setIsOngoingCall(false);
 		}
 	};
@@ -182,7 +177,6 @@ const NoteItem = ({ note }) => {
 					: "Note could not be archived. Try again later",
 				"error"
 			);
-		} finally {
 			setIsOngoingCall(false);
 		}
 	};
@@ -206,7 +200,6 @@ const NoteItem = ({ note }) => {
 				"Could not restore note from trash. Try again later.",
 				"error"
 			);
-		} finally {
 			setIsOngoingCall(false);
 		}
 	};
@@ -230,7 +223,6 @@ const NoteItem = ({ note }) => {
 				"Could not delete note from trash. Try again later.",
 				"error"
 			);
-		} finally {
 			setIsOngoingCall(false);
 		}
 	};
@@ -257,7 +249,6 @@ const NoteItem = ({ note }) => {
 					},
 				},
 			});
-			showToast("Note background color updated!", "success");
 		} catch (error) {
 			showToast(
 				"Could not update note background color. Try again later!",
@@ -296,7 +287,6 @@ const NoteItem = ({ note }) => {
 					},
 				},
 			});
-			showToast("Note background color updated!", "success");
 		} catch (error) {
 			showToast(
 				"Could not update note background color. Try again later!",
@@ -372,7 +362,6 @@ const NoteItem = ({ note }) => {
 		}
 	};
 
-	const pinIcon = pinned ? <PushPin /> : <PushPinOutlined />;
 	const archiveIcon = isArchived ? <Unarchive /> : <Archive />;
 	const mappedTags = tags?.length > 0 && (
 		<div className="notes-tag-list flex-row flex-align-center flex-justify-start flex-wrap">

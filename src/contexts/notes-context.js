@@ -13,6 +13,7 @@ import {
 	getTrashedNotesService,
 } from "services/";
 import { useToastify } from "custom-hook";
+import { v4 as uuid } from "uuid";
 
 const NotesContext = createContext(initialNotesState);
 const { Provider } = NotesContext;
@@ -34,6 +35,23 @@ const NotesProvider = ({ children }) => {
 				data: { trash },
 			} = await getTrashedNotesService(authToken);
 
+			let labels = [
+				{
+					id: uuid(),
+					label: "Journal",
+				},
+				{
+					id: uuid(),
+					label: "Personal",
+				},
+			];
+			for (const note of notes) {
+				const tags = note?.tags;
+				if (tags?.length) {
+					labels = [...labels, ...tags];
+				}
+			}
+
 			notesDispatch({
 				action: {
 					type: "INIT_NOTES",
@@ -45,7 +63,7 @@ const NotesProvider = ({ children }) => {
 						showNewNoteForm: false,
 						isEditing: null,
 						editingNoteId: -1,
-						labels: [],
+						labels,
 						trash,
 					},
 				},

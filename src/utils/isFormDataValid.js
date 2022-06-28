@@ -10,7 +10,7 @@ const isFormDataValid = (
 	const isMinNameLength = (name) => name.trim().length >= 2;
 
 	const isPasswordValid = (passwordValue) =>
-		/^(?=.{7,})(?=.*[a-z])(?=.*[A-Z])(?=.*[!_*@#$%^&+=]).*$/.test(
+		/^(?=.{7,})(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[!_*@#$%^&+=]).*$/.test(
 			passwordValue
 		);
 	const isNameValid = (name) => /^[A-Za-z]{2,20}$/.test(name);
