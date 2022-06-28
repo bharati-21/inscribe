@@ -23,6 +23,7 @@ import {
 } from "backend/controllers/TrashController";
 import { users } from "./backend/db/users";
 import { notes } from "./backend/db/notes";
+import { archives } from "./backend/db/archives";
 
 export function makeServer({ environment = "development" } = {}) {
 	const server = new Server({
@@ -41,8 +42,8 @@ export function makeServer({ environment = "development" } = {}) {
 			users.forEach((item) =>
 				server.create("user", {
 					...item,
-					notes: notes,
-					archives: [],
+					notes,
+					archives,
 					trash: [],
 				})
 			);

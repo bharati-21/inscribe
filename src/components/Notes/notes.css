@@ -89,12 +89,12 @@
 	position: relative;
 }
 
-.note-body ul,
-.note-body ol {
+.note-display-body ul,
+.note-display-body ol {
 	padding-left: var(--space-1-5);
 }
 
-.note-body.note-body a {
+.note-body a {
 	color: rgb(0, 0, 237);
 }
 

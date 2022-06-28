@@ -6,11 +6,11 @@ import { Palette } from "@mui/icons-material";
 
 import "./new-note-modal.css";
 import { editArchiveService, editNoteService, postNoteService } from "services";
-import { getCreatedDate } from "utils/";
 import { useAuth, useNotes } from "contexts";
 import { useOutsideClick, useToastify } from "custom-hook";
 import { ColorPalette } from "components";
 import { notePriorities } from "../note-priorities";
+import { formatDate } from "backend/utils/authUtils";
 
 const NewNoteModal = () => {
 	const {
@@ -158,7 +158,7 @@ const NewNoteModal = () => {
 			return handleEditNote();
 		}
 		try {
-			const noteCreatedOn = getCreatedDate();
+			const noteCreatedOn = formatDate();
 			const {
 				data: { notes },
 			} = await postNoteService(

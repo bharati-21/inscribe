@@ -400,6 +400,7 @@ const NoteItem = ({ note }) => {
 	);
 
 	const noteStyle = { backgroundColor: noteBackgroundColor };
+    console.log(note)
 
 	return (
 		<div
@@ -412,7 +413,7 @@ const NoteItem = ({ note }) => {
 				className="note-title p-0-5"
 				readOnly
 			/>
-			<div className="note-body p-0-5 pr-0-75">
+			<div className="note-body note-display-body p-0-5 pr-0-75">
 				{parse(`${noteBody}`)}
 			</div>
 
