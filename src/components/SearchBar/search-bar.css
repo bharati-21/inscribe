@@ -72,9 +72,27 @@
 .text-clear-button-wrapper {
     width: 100%;
     max-width: 600px;
+    flex-wrap: wrap;
+    gap: var(--space-1);
 }
 
+.filter-options-text {
+    flex-direction: column;
+}
 
 .filter-options-text {
     gap: var(--space-0-5);
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0;
+}
+
+.sort-filter-text {
+    gap: 0.35rem;
+}
+
+@media screen and (min-width: 640px) {
+    .filter-options-text {
+        flex-direction: row;
+    }
 }

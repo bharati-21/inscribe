@@ -81,7 +81,7 @@ const SearchBar = ({ noteType }) => {
 				/>
 			)}
 			<div className="text-clear-button-wrapper flex-row flex-justify-between flex-align-start mx-auto mt-1">
-				<div className="sort-filter-text">
+				<div className="sort-filter-text flex-col flex-align-start">
 					{sortByDate && (
 						<p className="sort-options-text">
 							Sort by- {sortByDate}
@@ -96,7 +96,7 @@ const SearchBar = ({ noteType }) => {
 						<div className="filter-options-text flex-row flex-row flex-align-center flex-justify-start">
 							Filter by Label-
 							{filterByLabel.map(
-								({ id, label, filtered }) =>
+								({ id, label, filtered }, index) =>
 									filtered && <span key={id}>{label}</span>
 							)}
 						</div>
