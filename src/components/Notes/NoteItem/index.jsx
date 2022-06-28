@@ -400,7 +400,6 @@ const NoteItem = ({ note }) => {
 	);
 
 	const noteStyle = { backgroundColor: noteBackgroundColor };
-    console.log(note)
 
 	return (
 		<div
