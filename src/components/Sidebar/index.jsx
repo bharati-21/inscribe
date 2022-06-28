@@ -171,16 +171,9 @@ const Sidebar = () => {
 			</section>
 			{notesStateError && !notesStateLoading ? null : (
 				<section className="sidebar-footer flex-row flex-align-center flex-justify-between flex-wrap">
-					<article className="user-info flex-row flex-align-center">
-						<img
-							src="https://elixir-ui.netlify.app/Components/assets/avatar-1.jpg"
-							alt="Extra Small Size Avatar"
-							className="avatar avatar-xs user-avatar"
-						/>
-						<p className="user-name text-sm">
-							{authUser.firstName} {authUser.lastName}
-						</p>
-					</article>
+					<p className="user-name text-sm">
+						{authUser.firstName} {authUser.lastName}
+					</p>
 					<button
 						className="btn btn-icon btn-logout"
 						onClick={handleLogout}
