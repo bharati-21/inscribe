@@ -95,13 +95,12 @@ const NoteItem = ({ note }) => {
 
 			showToast("Note deleted.", "success");
 		} catch (error) {
+            setIsOngoingCall(false);
 			showToast(
 				"Could note delete note. Try again after sometime!",
 				"error"
 			);
-		} finally {
-			setIsOngoingCall(false);
-		}
+		} 
 	};
 
 	const handleDeleteNote = async () => {

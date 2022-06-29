@@ -75,27 +75,39 @@ export const updateArchivedNotesHandler = function (schema, request) {
 
 export const deleteFromArchivesHandler = function (schema, request) {
 	const user = requiresAuth.call(this, request);
-	if (!user) {
+	try {
+		if (!user) {
+			return new Response(
+				404,
+				{},
+				{
+					errors: [
+						"The email you entered is not Registered. Not Found error",
+					],
+				}
+			);
+		}
+		const { noteId } = request.params;
+		const noteToBeDeleted = user.archives.find(
+			(note) => note._id === noteId
+		);
+		user.trash.push({ ...noteToBeDeleted });
+		user.archives = user.archives.filter((note) => note._id !== noteId);
+		this.db.users.update({ _id: user._id }, user);
 		return new Response(
-			404,
+			200,
+			{},
+			{ archives: user.archives, trash: user.trash }
+		);
+	} catch (error) {
+		return new Response(
+			500,
 			{},
 			{
-				errors: [
-					"The email you entered is not Registered. Not Found error",
-				],
+				error,
 			}
 		);
 	}
-	const { noteId } = request.params;
-	const noteToBeDeleted = user.archives.find((note) => note._id === noteId);
-	user.trash.push({ ...noteToBeDeleted });
-	user.archives = user.archives.filter((note) => note._id !== noteId);
-	this.db.users.update({ _id: user._id }, user);
-	return new Response(
-		200,
-		{},
-		{ archives: user.archives, trash: user.trash }
-	);
 };
 
 /**
