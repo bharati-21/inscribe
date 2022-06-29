@@ -3,7 +3,6 @@
 @import url('./variables.css');
 @import url('react-toastify/dist/ReactToastify.css');
 
-
 .App {
     background-color: var(--light-theme-bg-color);
     max-height: 100vh;
@@ -20,6 +19,7 @@
 .section-wrapper {
     padding: var(--space-2);
     overflow-y: auto;
+    width: 100%;
 }
 
 .section-wrapper::-webkit-scrollbar {

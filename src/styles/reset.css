@@ -20,6 +20,30 @@ body {
 	max-height: 100vh;
 }
 
+h1 {
+    font-size: var(--space-2-5);
+}
+
+h2 {
+    font-size: 2.25rem
+}
+
+h3 {
+    font-size: var(--space-2);
+}
+
+h4 {
+    font-size: 1.75rem;
+}
+
+h5 {
+    font-size: var(--space-1-5);
+}
+
+h6 {
+    font-size: 1.25rem;
+}
+
 div,
 section,
 aside,

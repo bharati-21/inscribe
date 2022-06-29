@@ -15,31 +15,45 @@ const Profile = () => {
 	}, []);
 
 	return (
-		<section className="section-wrapper profile-section flex-col flex-align-center flex-justify-center mx-auto">
-			<div className="profile-container p-1">
-				<h3 className="text-center flex-col flex-justify-center flex-align-center">
-					👋 {authUser.firstName} {authUser.lastName}
-					<span className="mt-0-5">
+		<section className="section-wrapper profile-section flex-col flex-align-center flex-justify-start mx-auto bootstrap-iso">
+			{notesError ? (
+				<h4 className="error-color">{notesError}</h4>
+			) : notesStateLoading ? (
+				<h4 className="success-color">Loading stats...</h4>
+			) : (
+				<div className="profile-container p-1">
+					<h4 className="text-center">
+						👋 {authUser.firstName} {authUser.lastName}
+					</h4>
+					<h5 className="mt-1 text-center">
 						Welcome to your inscribe profile!
-					</span>
-				</h3>
-				{!notesStateLoading && !notesError ? (
-					<ul className="list flex-col mt-2 flex-justify-center flex-align-center list-spaced list-style-none notes-stats">
-						<li>
-							Number of notes: <span>{notes?.length}</span>
-						</li>
-						<li>
-							Your archived notes: <span>{archives?.length}</span>
-						</li>
-						<li>
-							Your delete notes: <span>{trash?.length}</span>
-						</li>
-						<li>
-							Your labels: <span>{labels?.length}</span>
-						</li>
-					</ul>
-				) : null}
-			</div>
+					</h5>
+					{!notesStateLoading && !notesError ? (
+						<div className="note-stats-table mt-2">
+							<table className="note-stats text-left" border="1">
+								<tbody>
+									<tr>
+										<th>Number of Notes</th>
+										<td>{notes?.length}</td>
+									</tr>
+									<tr>
+										<th>Your Archived Notes</th>
+										<td>{archives?.length}</td>
+									</tr>
+									<tr>
+										<th>Your Deleted Notes</th>
+										<td>{trash?.length}</td>
+									</tr>
+									<tr>
+										<th>Your labels</th>
+										<td>{labels?.length}</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					) : null}
+				</div>
+			)}
 		</section>
 	);
 };

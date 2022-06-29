@@ -1,9 +1,36 @@
 .profile-container {
     border: 1px solid #ccc;
     max-width: 500px;
+    width: 100%;
 }
 
-.notes-stats li {
-    font-size: var(--text);
+.note-stats  {
+    max-width: 500px;
+    width: 100%;
+    border: 2px solid var(--text-color);
+    border-collapse: collapse;
 }
 
+.note-stats tr  {
+    border-collapse: collapse;
+    border: 2px solid var(--text-color);   
+    background-color: #eee;
+}
+
+.note-stats tr:hover,
+.note-stats tr:nth-child(odd):hover {
+    background-color: var(--box-shadow-color);
+}
+
+.note-stats tr:nth-child(odd) {
+    background-color: var(--overlay-text-color);
+}
+
+.note-stats th,
+.note-stats td {
+    padding: var(--space-0-5);
+}
+
+.note-stats td {
+    text-align: center;
+}
